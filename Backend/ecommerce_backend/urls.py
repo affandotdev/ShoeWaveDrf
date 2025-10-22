@@ -5,3 +5,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),   # ✅ include your app urls here
 ]
+
+
+# test
