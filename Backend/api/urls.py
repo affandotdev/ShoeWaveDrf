@@ -7,7 +7,8 @@ from .views import (
     RegisterView, UserViewSet, AdminUserViewSet, CustomTokenObtainPairView,
     RazorpayCreateOrderView, RazorpayVerifyPaymentView,
     AdminOrderViewSet, AdminAnalyticsView,
-    PasswordResetRequestOTPView, PasswordResetVerifyOTPView,ProductListCreateView, ProductDetailView, BlockAdminAPIView
+    PasswordResetRequestOTPView, PasswordResetVerifyOTPView,ProductListCreateView, ProductDetailView, BlockAdminAPIView,TopSellingProductsView,
+    CategoryListView
 )
 
 router = DefaultRouter()
@@ -32,4 +33,6 @@ urlpatterns = [
     path('products/', ProductListCreateView.as_view(), name='product-list-create'),
     path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
     path('admins/block/<int:id>/', BlockAdminAPIView.as_view(), name='block-admin'),
+    path('products/top-selling/', TopSellingProductsView.as_view(), name='top-selling-products'),
+    path('categories/', CategoryListView.as_view(), name='categories-list'),
 ]

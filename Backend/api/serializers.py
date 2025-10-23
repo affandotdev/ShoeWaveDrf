@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Product, CartItem, Order, OrderItem, Wishlist
 from .models import Product
-
+from .models import Category
 
 
 User = get_user_model()
@@ -12,7 +12,14 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-       
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+
 
 # ---------------- Cart Serializer ----------------
 class CartItemSerializer(serializers.ModelSerializer):

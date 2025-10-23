@@ -45,6 +45,10 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    icon = models.CharField(max_length=10, default="👟")
 
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -105,7 +109,7 @@ class PasswordResetToken(models.Model):
     def __str__(self):
         return f"Password reset token for {self.user.email}"
 
-    
+
 class PasswordResetOTP(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)

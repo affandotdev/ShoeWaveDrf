@@ -23,6 +23,8 @@ from django.contrib.auth import get_user_model
 import random
 from django.conf import settings
 from .serializers import ProductSerializer
+from .models import Category
+from .serializers import CategorySerializer
 
 
 from .models import Product, CartItem, Order, OrderItem, Wishlist, PasswordResetToken
@@ -131,6 +133,15 @@ class ProductViewSet(viewsets.ModelViewSet):
         products = Product.objects.filter(category__iexact=category)
         serializer = self.get_serializer(products, many=True)
         return Response(serializer.data)
+
+
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.AllowAny]
+
+
+
 
 # -----------------------------
 # Cart View
@@ -401,3 +412,21 @@ class BlockAdminAPIView(APIView):
             return Response({"detail": "Admin blocked successfully."})
         except User.DoesNotExist:
             return Response({"detail": "Admin not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+
+
+
+class TopSellingProductsView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        # Calculate top-selling products based on order items
+        from django.db.models import Sum, Q
+        
+        # Get products with their total quantities sold
+        products_with_sales = Product.objects.annotate(
+            total_sold=Sum('orderitem__quantity', filter=Q(orderitem__order__status__in=['Delivered', 'Shipping']))
+        ).filter(total_sold__isnull=False).order_by('-total_sold')[:6]
+        
+        return products_with_sales        

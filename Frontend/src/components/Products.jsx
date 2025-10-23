@@ -53,7 +53,9 @@ const Products = () => {
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
-      category === "all" || product.category.toLowerCase().includes(category.toLowerCase());
+      category === "all" || 
+      product.category.toLowerCase() === category.toLowerCase() ||
+      product.gender.toLowerCase() === category.toLowerCase();
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
     return matchesSearch && matchesCategory && matchesPrice;
   });
@@ -134,11 +136,13 @@ const Products = () => {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="appearance-none bg-gradient-to-r from-violet-600 to-purple-600 text-black px-8 py-4 rounded-2xl font-semibold text-lg cursor-pointer hover:from-violet-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  className="appearance-none bg-gradient-to-r from-violet-700 to-purple-400 text-black px-7 py-4 rounded-2xl font-semibold text-lg cursor-pointer hover:from-violet-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
                   <option value="all">All Categories</option>
-                  <option value="men">Men's Collection</option>
-                  <option value="women">Women's Collection</option>
+                  <option value="Men">Men</option>
+                  <option value="Women">Women</option>
+                  <option value="Unisex">Unisex</option>
+                  <option value="Shoes">Shoes</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
