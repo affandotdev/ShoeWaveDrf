@@ -8,28 +8,31 @@ import {
 import api from "../apicall/axios";
 
 const AdminDashboard = () => {
-  const [users, setUsers] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [salesData, setSalesData] = useState([]);
+  const [deliveryChartData, setDeliveryChartData] = useState([]);
+  const [totals, setTotals] = useState({ total_sales: 0, total_orders: 0, total_users: 0, total_products: 0 });
+  const [topProducts, setTopProducts] = useState([]);
 
   const COLORS = ["#4F46E5", "#10B981", "#F59E0B", "#EF4444", "#3B82F6"];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [usersRes, productsRes, ordersRes] = await Promise.all([
-          api.get('/users/'),
-          api.get('/products/'),
-          api.get('/orders/'),
-        ]);
+        const analyticsRes = await api.get('/admin/analytics/');
+        const { totals, monthly_sales, status_counts, top_products } = analyticsRes.data;
 
-        setUsers(usersRes.data);
-        setProducts(productsRes.data);
-        setOrders(ordersRes.data);
+        // Transform backend monthly_sales/status for charts
+        const salesData = monthly_sales;
+        const deliveryChartData = Object.entries(status_counts).map(([status, count]) => ({ name: status, value: count }));
+
+        // Store for charts in component state
+        setSalesData(salesData);
+        setDeliveryChartData(deliveryChartData);
+        setTotals(totals);
+        setTopProducts(top_products || []);
       } catch (error) {
-        console.error("Error fetching data", error);
+        console.error("Error fetching analytics", error);
       } finally {
         setLoading(false);
       }
@@ -48,56 +51,13 @@ const AdminDashboard = () => {
   }
 
 
-  const totalSales = orders.reduce((sum, order) => sum + (order.total || 0), 0);
-  const totalOrders = orders.length;
-  const totalUsers = users.length;
-  const totalProducts = products.length;
+  const totalSales = totals.total_sales;
+  const totalOrders = totals.total_orders;
+  const totalUsers = totals.total_users;
+  const totalProducts = totals.total_products;
 
 
-  const monthlySales = {};
-  orders.forEach(order => {
-    const month = new Date(order.date || order.createdAt).toLocaleString("default", { month: "short" });
-    monthlySales[month] = (monthlySales[month] || 0) + (order.total || 0);
-  });
-  const salesData = Object.keys(monthlySales).map(month => ({
-    month,
-    sales: monthlySales[month],
-  }));
-
-  const deliveryStatusCount = {};
-
-  orders.forEach(order => {
-    let status = order.status ? order.status.trim().toLowerCase() : "unknown";
-
-
-    if (status === "canceled") status = "cancelled";
-    if (status === "in transit" || status === "shipping") status = "shipped";
-
-    deliveryStatusCount[status] = (deliveryStatusCount[status] || 0) + 1;
-  });
-
-  const deliveryChartData = Object.entries(deliveryStatusCount).map(([status, count]) => ({
-    name: status.charAt(0).toUpperCase() + status.slice(1),
-    value: count
-  }));
-
-
-
-  const productSales = {};
-  orders.forEach(order => {
-    if (Array.isArray(order.items)) {
-      order.items.forEach(p => {
-        if (p.name && p.quantity) {
-          productSales[p.name] = (productSales[p.name] || 0) + p.quantity;
-        }
-      });
-    }
-  });
-
-  const topProducts = Object.entries(productSales)
-    .map(([name, qty]) => ({ name, qty }))
-    .sort((a, b) => b.qty - a.qty)
-    .slice(0, 5);
+  // salesData, deliveryChartData now from backend
 
   return (
   
@@ -109,7 +69,7 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Revenue</h2>
-            <p className="text-3xl font-bold text-indigo-600 mt-2">${totalSales.toFixed(2)}</p>
+            <p className="text-3xl font-bold text-indigo-600 mt-2">₹{totalSales.toFixed(2)}</p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Orders</h2>

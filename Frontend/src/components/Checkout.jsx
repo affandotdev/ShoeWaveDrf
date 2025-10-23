@@ -53,13 +53,104 @@ const Checkout = () => {
           items: cartItems
         }));
 
-        // Clear cart after successful order
+        // Clear cart after successful order - FIXED: await the clear operation
         await clearCart();
+        
+        // Navigate to success page after cart is cleared
         navigate("/order-success");
       }
     } catch (error) {
       console.error("Order Error:", error);
       alert("Something went wrong placing the order");
+    }
+  };
+
+  // Load Razorpay script
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      if (document.getElementById('razorpay-script')) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement('script');
+      script.id = 'razorpay-script';
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const payWithRazorpay = async () => {
+    if (!user) {
+      alert("Please login to place an order");
+      return;
+    }
+    if (cartItems.length === 0) {
+      alert("Your cart is empty");
+      return;
+    }
+    if (!address.trim()) {
+      alert("Please enter your shipping address");
+      return;
+    }
+
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      alert('Razorpay SDK failed to load. Are you online?');
+      return;
+    }
+
+    try {
+      // Create order on backend (Razorpay)
+      const { data } = await api.post('payments/razorpay/create-order/', {
+        amount: totalAmount,
+        currency: 'INR'
+      });
+
+      const options = {
+        key: data.key_id,
+        amount: data.amount,
+        currency: data.currency,
+        name: 'Ecommerce Store',
+        description: 'Order Payment',
+        order_id: data.order_id,
+        prefill: {
+          name: user?.username || user?.email || 'User',
+          email: user?.email || '',
+        },
+        theme: { color: '#7c3aed' },
+        handler: async function (response) {
+          try {
+            const verify = await api.post('payments/razorpay/verify/', {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (verify.data?.verified) {
+              // Proceed to create app order and clear cart
+              await placeOrder();
+            } else {
+              alert('Payment verification failed');
+            }
+          } catch (e) {
+            console.error(e);
+            alert('Payment verification failed');
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            // Payment cancelled
+          }
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error('Razorpay error:', err);
+      alert('Unable to initiate payment');
     }
   };
 
@@ -131,9 +222,9 @@ const Checkout = () => {
                       </div>
                       <div className="text-right">
                         <div className="text-xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                          ${((item.product?.price || item.price) * item.quantity).toFixed(2)}
+                          ₹{((item.product?.price || item.price) * item.quantity).toFixed(2)}
                         </div>
-                        <div className="text-sm text-gray-500">${item.product?.price || item.price} each</div>
+                        <div className="text-sm text-gray-500">₹{item.product?.price || item.price} each</div>
                       </div>
                     </div>
                   ))}
@@ -142,7 +233,7 @@ const Checkout = () => {
                 <div className="mt-8 pt-6 border-t-2 border-gradient-to-r from-violet-200 to-purple-200">
                   <div className="flex justify-between items-center p-6 bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl text-white">
                     <span className="text-2xl font-bold">Total Amount:</span>
-                    <span className="text-3xl font-extrabold">${totalAmount.toFixed(2)}</span>
+                    <span className="text-3xl font-extrabold">₹{totalAmount.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
@@ -187,21 +278,39 @@ const Checkout = () => {
 
             
               <div className="bg-white rounded-3xl shadow-2xl p-8 border border-purple-100 hover:shadow-3xl transition-all duration-500">
-                <button
-                  onClick={placeOrder}
-                  className="group relative w-full overflow-hidden bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-2xl text-xl font-bold hover:from-green-700 hover:to-emerald-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                  <span className="relative z-10 flex items-center justify-center gap-3">
-                    <svg className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Place Order
-                    <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                    </svg>
-                  </span>
-                </button>
+                <div className="grid gap-4">
+                  <button
+                    onClick={payWithRazorpay}
+                    className="group relative w-full overflow-hidden bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-2xl text-xl font-bold hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    <span className="relative z-10 flex items-center justify-center gap-3">
+                      <svg className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13v6a2 2 0 002 2h8.5m-10.5-8h10"></path>
+                      </svg>
+                      Pay with Razorpay
+                      <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                      </svg>
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={placeOrder}
+                    className="group relative w-full overflow-hidden bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-2xl text-xl font-bold hover:from-green-700 hover:to-emerald-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    <span className="relative z-10 flex items-center justify-center gap-3">
+                      <svg className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      Cash on Delivery
+                      <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                      </svg>
+                    </span>
+                  </button>
+                </div>
 
                 <div className="mt-4 flex items-center justify-center gap-4 text-sm text-gray-600">
                   <div className="flex items-center gap-1">

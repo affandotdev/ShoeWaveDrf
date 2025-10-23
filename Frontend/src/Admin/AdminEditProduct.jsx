@@ -7,14 +7,14 @@ import api from "../apicall/axios";
 const AdminEditProduct = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     api.get(`/products/${id}/`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProduct(data);
+      .then((res) => {
+        setProduct(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -25,23 +25,30 @@ const AdminEditProduct = () => {
 
 const handleUpdate = async (e) => {
   e.preventDefault();
+  const formData = new FormData();
+  formData.append('name', product.name);
+  formData.append('brand', product.brand);
+  formData.append('gender', product.gender);
+  formData.append('price', product.price);
+  formData.append('category', product.category);
+  formData.append('description', product.description || '');
+
+  // Only append file if user selected a new image
+  if (file) {
+    formData.append('image', file);
+  }
 
   try {
-    const response = await api.put(`/products/${id}/`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(product),
+    const response = await api.put(`/products/${id}/`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
     toast.success("Product updated successfully!");
-    navigate("/admin/products");
+    setTimeout(() => {
+      navigate("/admin/products");
+    }, 1000);
   } catch (error) {
-    console.error("Update failed", error);
-    toast.error("Failed to update product.");
+    console.error("Update failed", error.response?.data || error.message);
+    toast.error(error.response?.data?.detail || "Failed to update product");
   }
 };
 
@@ -75,34 +82,72 @@ const handleUpdate = async (e) => {
       
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-              Product Name
+              Product Name <span className="text-red-500">*</span>
             </label>
-            <input
-              id= {String}
+              <input
+              id="name"
               type="text"
               value={product.name}
               onChange={(e) => setProduct({ ...product, name: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"
               placeholder="Enter product name"
+              required
             />
+          </div>
+
+          {/* Brand Field */}
+          <div>
+            <label htmlFor="brand" className="block text-sm font-medium text-gray-700 mb-1">
+              Brand <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="brand"
+              type="text"
+              value={product.brand}
+              onChange={(e) => setProduct({ ...product, brand: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"
+              placeholder="Enter brand name"
+              required
+            />
+          </div>
+
+          {/* Gender Field */}
+          <div>
+            <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-1">
+              Gender <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="gender"
+              value={product.gender}
+              onChange={(e) => setProduct({ ...product, gender: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"
+              required
+            >
+              <option value="">Select gender</option>
+              <option value="Men">Men</option>
+              <option value="Women">Women</option>
+              <option value="Unisex">Unisex</option>
+            </select>
           </div>
 
      
           <div>
             <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-              Price
+              Price <span className="text-red-500">*</span>
             </label>
             <div className="relative rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span className="text-gray-500 sm:text-sm">$</span>
+                <span className="text-gray-500 sm:text-sm">₹</span>
               </div>
               <input
                 id="price"
                 type="number"
+                step="0.01"
                 value={product.price}
                 onChange={(e) => setProduct({ ...product, price: e.target.value })}
                 className="block w-full pl-7 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"
                 placeholder="0.00"
+                required
               />
             </div>
           </div>
@@ -110,30 +155,28 @@ const handleUpdate = async (e) => {
      
           <div>
             <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-              Image URL
+              Product Image
             </label>
             <input
               id="image"
-              type="text"
-              value={product.image}
-              onChange={(e) => setProduct({ ...product, image: e.target.value })}
+              type="file"
+              accept="image/*"
+              onChange={(e) => setFile(e.target.files[0])}
               className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"
-              placeholder="https://example.com/image.jpg or filename.jpg"
             />
+            {file && (
+              <p className="mt-1 text-sm text-gray-500">New image selected: {file.name}</p>
+            )}
           </div>
 
    
-          {product.image && (
+          {product.image && !file && (
             <div className="mt-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Preview</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Current Image</label>
               <div className="flex justify-center p-4 bg-gray-50 rounded-md border border-gray-200 hover:border-blue-300 transition-colors duration-200">
                 <img
-                  src={
-                    product.image.startsWith("http")
-                      ? product.image
-                      : `/images/${product.image}`
-                  }
-                  alt="Preview"
+                  src={product.image}
+                  alt="Current product"
                   className="max-h-48 object-contain rounded-md shadow-sm hover:shadow-md transition-shadow duration-200"
                   onError={(e) => (e.target.style.display = "none")}
                 />
@@ -144,7 +187,7 @@ const handleUpdate = async (e) => {
       
           <div>
             <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-              Category
+              Category <span className="text-red-500">*</span>
             </label>
             <input
               id="category"
@@ -153,6 +196,21 @@ const handleUpdate = async (e) => {
               onChange={(e) => setProduct({ ...product, category: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"
               placeholder="Enter category"
+              required
+            />
+          </div>
+
+          {/* Description Field */}
+          <div>
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+              Description
+            </label>
+            <textarea
+              id="description"
+              value={product.description || ''}
+              onChange={(e) => setProduct({ ...product, description: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400 h-32"
+              placeholder="Enter product description"
             />
           </div>
 

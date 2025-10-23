@@ -174,6 +174,18 @@ const Login = () => {
               fontSize: '16px'
             }}
           />
+          <div style={{ textAlign: 'right', marginTop: '5px' }}>
+            <Link 
+              to="/forgot-password" 
+              style={{ 
+                color: '#007bff', 
+                textDecoration: 'none',
+                fontSize: '14px'
+              }}
+            >
+              Forgot Password?
+            </Link>
+          </div>
         </div>
 
         <button

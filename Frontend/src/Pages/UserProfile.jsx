@@ -1,26 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
-  const { user, updatePassword } = useAuth();
-  const [newPassword, setNewPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handlePasswordChange = async () => {
-    if (newPassword.trim() === '') return alert('Password cannot be empty');
-
-    setLoading(true);
-    try {
-      await updatePassword(newPassword); 
-      alert('Password updated successfully!');
-      setNewPassword('');
-    } catch (error) {
-      console.error('Error updating password:', error);
-      alert('Failed to update password. Try again!');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { user } = useAuth();
 
   return (
     <div className="max-w-xl mx-auto mt-12 p-8 bg-white rounded-2xl shadow-xl">
@@ -31,26 +14,31 @@ const UserProfile = () => {
         <p className="text-lg"><span className="font-semibold text-gray-700">Email:</span> {user?.email}</p>
       </div>
 
-      <div className="mt-4">
-        <h2 className="text-xl font-semibold mb-3 text-gray-700">Change Password</h2>
-        <input
-          type="password"
-          placeholder="Enter new password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          onClick={handlePasswordChange}
-          disabled={loading}
-          className={`w-full py-2 rounded-lg text-white font-semibold transition duration-200 ${
-            loading
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-blue-600 hover:bg-blue-700'
-          }`}
-        >
-          {loading ? 'Updating...' : 'Update Password'}
-        </button>
+      <div className="mt-6">
+        <h2 className="text-xl font-semibold mb-4 text-gray-700">Password Management</h2>
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <div className="flex items-start gap-3">
+            <svg className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            <div className="flex-1">
+              <h3 className="font-semibold text-gray-800 mb-2">Reset Your Password</h3>
+              <p className="text-sm text-gray-600 mb-4">
+                For security reasons, password changes are handled through email verification. 
+                Click the button below to receive a secure reset link in your email.
+              </p>
+              <Link 
+                to="/forgot-password" 
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md hover:shadow-lg"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                Reset Password via Email
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -4,8 +4,10 @@ import api from "../apicall/axios";
 
 const AdminAddProduct = () => {
   const [name, setName] = useState("");
+  const [brand, setBrand] = useState("");
+  const [gender, setGender] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
@@ -13,41 +15,35 @@ const AdminAddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !price || !category) {
+    if (!name || !brand || !gender || !price || !category) {
       alert("Please fill all required fields");
       return;
     }
 
     try {
-    
-      const res = api.get("/products/");
-      const products = await res.json();
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('brand', brand);
+      formData.append('gender', gender);
+      formData.append('price', parseFloat(price));
+      formData.append('category', category);
+      formData.append('description', description);
+      
+      // Append image file if selected
+      if (image) {
+        formData.append('image', image);
+      }
 
-     
-      const lastId = Math.max(...products.map(p => parseInt(p.id, 10) || 0));
-
-    
-      const newProduct = {
-        id: String(lastId + 1), 
-        name,
-        price: parseFloat(price),
-        image,
-        category,
-        description,
-      };
-
-   
-      await api.post("/products/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newProduct),
+      await api.post('/products/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
 
-      alert("Product added successfully!");
-      navigate("/admin/products");
+      alert('Product added successfully!');
+      navigate('/admin/products');
     } catch (error) {
-      console.error("Error adding product", error);
-      alert("Failed to add product.");
+      console.error('Error adding product', error);
+      console.error('Response data:', error.response?.data);
+      alert(error.response?.data?.detail || error.response?.data?.message || 'Failed to add product.');
     }
   };
 
@@ -87,6 +83,41 @@ const AdminAddProduct = () => {
             />
           </div>
 
+          {/* Brand Field */}
+          <div>
+            <label htmlFor="brand" className="block text-sm font-medium text-gray-700 mb-1">
+              Brand <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="brand"
+              type="text"
+              placeholder="Enter brand name"
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"
+              required
+            />
+          </div>
+
+          {/* Gender Field */}
+          <div>
+            <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-1">
+              Gender <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"
+              required
+            >
+              <option value="">Select gender</option>
+              <option value="Men">Men</option>
+              <option value="Women">Women</option>
+              <option value="Unisex">Unisex</option>
+            </select>
+          </div>
+
       
           <div>
             <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
@@ -94,11 +125,12 @@ const AdminAddProduct = () => {
             </label>
             <div className="relative rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span className="text-gray-500 sm:text-sm">$</span>
+                <span className="text-gray-500 sm:text-sm">₹</span>
               </div>
               <input
                 id="price"
                 type="number"
+                step="0.01"
                 placeholder="0.00"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
@@ -111,16 +143,18 @@ const AdminAddProduct = () => {
          
           <div>
             <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-              Image URL
+              Product Image
             </label>
             <input
               id="image"
-              type="text"
-              placeholder="filename.jpg"
-              value={image}
-              onChange={(e) => setImage(`${e.target.value}`)}
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
               className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"
             />
+            {image && (
+              <p className="mt-1 text-sm text-gray-500">Selected: {image.name}</p>
+            )}
           </div>
 
       
@@ -131,7 +165,7 @@ const AdminAddProduct = () => {
             <input
               id="category"
               type="text"
-              placeholder="Enter category"
+              placeholder="Enter category (e.g., Shoes, Clothing)"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-200 hover:border-gray-400"

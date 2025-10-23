@@ -12,8 +12,8 @@ const Home = () => {
     {
       id: "1",
       name: "Adidas Samba",
-      price: "$125",
-      originalPrice: "$219.99",
+      price: "₹1499",
+      originalPrice: "₹2999.99",
       color: "Electric Blue",
       image: "/images/add 2.jpeg",
       features: ["Lightweight", "Breathable", "Durable"]
@@ -21,8 +21,8 @@ const Home = () => {
     {
       id: 2,
       name: "Ultraboost 5",
-      price: "$180",
-      originalPrice: "$249.99",
+      price: "₹2999",
+      originalPrice: "₹3900.99",
       color: "Sunset Orange",
       image: "/images/product 2.jpeg",
       features: ["Energy Return", "Cushioned", "Flexible"]
@@ -30,8 +30,8 @@ const Home = () => {
     {
       id: 3,
       name: "Simone",
-      price: "$39.95",
-      originalPrice: "$199.99",
+      price: "₹999.95",
+      originalPrice: "₹1999.99",
       color: "Forest Green",
       image: "/images/product 11.jpeg",
       features: ["Street Style", "Comfortable", "Versatile"]

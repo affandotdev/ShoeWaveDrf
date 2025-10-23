@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Wishlist, Order, User
+from .models import Product, Wishlist, Order, User, PasswordResetToken
 
 # -----------------------------
 # Product Admin - Only admin/superuser can add/edit/delete
@@ -79,3 +79,8 @@ class OrderAdmin(admin.ModelAdmin):
         return request.user.is_superuser
 
 admin.site.register(Order, OrderAdmin)
+
+
+# -----------------------------
+# Password Reset Token Admin
+# -----------------------------

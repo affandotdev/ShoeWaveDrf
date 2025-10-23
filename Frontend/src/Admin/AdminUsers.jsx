@@ -12,7 +12,7 @@ const AdminUsers = () => {
   }, []);
 
   const fetchUsers = () => {
-    api.get("/users/")
+    api.get("/admin/users/")
       .then(res => setUsers(res.data))
       .catch(err => console.error("Error fetching users", err));
   };
@@ -22,7 +22,7 @@ const AdminUsers = () => {
   };
 
   const handleRemoveUser = (userId) => {
-    api.delete(`/users/${userId}/`)
+    api.delete(`/admin/users/${userId}/`)
       .then(() => {
         setUsers(users.filter(user => user.id !== userId));
       })
@@ -30,13 +30,18 @@ const AdminUsers = () => {
   };
 
   const handleToggleBlock = (userId, currentStatus) => {
-    api.patch(`/users/${userId}/`, {
+    console.log('Toggling block for user:', userId, 'current status:', currentStatus);
+    api.patch(`/admin/users/${userId}/`, {
       blocked: !currentStatus
     })
-      .then(() => {
+      .then((response) => {
+        console.log('Block toggle response:', response.data);
         fetchUsers();
       })
-      .catch(err => console.error("Error updating user block status", err));
+      .catch(err => {
+        console.error("Error updating user block status", err);
+        console.error("Response data:", err.response?.data);
+      });
   };
 
   return (
@@ -53,7 +58,7 @@ const AdminUsers = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
@@ -62,7 +67,7 @@ const AdminUsers = () => {
               {users.map(user => (
                 <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.username}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 space-x-2">
                     <button

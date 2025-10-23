@@ -18,6 +18,8 @@ import Contact from "./Pages/Contact";
 import ProductDetails from "./components/ProductDetails";
 import UserOrders from "./Pages/Order";
 import UserProfile from "./Pages/UserProfile";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
 
 
 import AdminLayout from "./components/AdminLayout";
@@ -91,6 +93,8 @@ function App() {
           path="/register"
           element={isAuthenticated ? <Navigate to="/" replace /> : <Register />}
         />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
 
         {isAuthenticated && user.role === "user" && (
@@ -104,6 +108,9 @@ function App() {
             <Route path="/order" element={<UserOrders />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="*" element={<ErrorPage />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
+
           </>
         )}
 
@@ -120,8 +127,8 @@ function App() {
           <Route path="products" element={<AdminProducts />} />
           <Route path="add-product" element={<AdminAddProduct />} />
           <Route path="edit-product/:id" element={<AdminEditProduct />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
-          <Route path="/admin/user/:id" element={<AdminUserDetails />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="user/:id" element={<AdminUserDetails />} />
           <Route path="orders" element={<AdminOrders />} />
 
         </Route>

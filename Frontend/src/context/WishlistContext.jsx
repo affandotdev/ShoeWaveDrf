@@ -32,46 +32,60 @@ export const WishlistProvider = ({ children }) => {
     }
   }, [user]);
 
-  const addToWishlist = async (product) => {
-    if (!user) {
-      alert("Please login to add items to your wishlist");
-      return;
-    }
+const addToWishlist = async (productId) => {
+  if (!user) {
+    alert("Please login first");
+    return;
+  }
 
-    try {
-      setLoading(true);
-      
-      // Check if item already exists in wishlist
-      const existingItem = wishlistItems.find(item => item.product.id === product.id);
-      
-      if (!existingItem) {
-        await api.post('wishlist/', {
-          product: product.id
-        });
-        await fetchWishlistItems();
-      } else {
-        alert('Item already in wishlist');
-      }
-    } catch (error) {
-      console.error('Error adding to wishlist:', error);
-      alert('Failed to add item to wishlist');
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
 
-  const removeFromWishlist = async (id) => {
-    try {
-      setLoading(true);
-      await api.delete(`wishlist/${id}/`);
+    // Check if item already exists
+    const existingItem = wishlistItems.find(
+      item => (item.product?.id || item.id) === productId
+    );
+
+    if (!existingItem) {
+      // Include user in payload
+      const payload = {
+        product_id: productId
+      };
+
+      const token = localStorage.getItem("access"); // JWT token
+      await api.post('wishlist/', payload, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
       await fetchWishlistItems();
-    } catch (error) {
-      console.error('Error removing from wishlist:', error);
-      alert('Failed to remove item from wishlist');
-    } finally {
-      setLoading(false);
+    } else {
+      // If already in wishlist → remove it (toggle off)
+      await removeFromWishlist(existingItem.id);
     }
-  };
+
+  } catch (error) {
+    console.error('Error adding/removing wishlist item:', error);
+    alert(error.response?.data?.detail || 'Failed to update wishlist');
+  } finally {
+    setLoading(false);
+  }
+}
+
+const removeFromWishlist = async (wishlistItemId) => {
+  try {
+    setLoading(true);
+    await api.delete(`wishlist/${wishlistItemId}/`);
+    await fetchWishlistItems();
+  } catch (error) {
+    console.error('Error removing from wishlist:', error);
+    alert('Failed to remove item from wishlist');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <WishlistContext.Provider value={{ wishlistItems, addToWishlist, removeFromWishlist, loading }}>

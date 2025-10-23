@@ -27,24 +27,23 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const verifyUserStatus = async (currentUser) => {
-    if (!currentUser) return;
-    try {
-      const response = await api.get(`/users/${currentUser.id}/`);
-      if (!response.ok) throw new Error('Failed to fetch user status');
+const verifyUserStatus = async (currentUser) => {
+  if (!currentUser) return;
+  try {
+    const response = await api.get(`/users/${currentUser.id}/`);
+    const latestUser = response.data;
 
-      const latestUser = await response.json();
-
-      if (latestUser.status === 'blocked') {
-        alert('Your account has been blocked by the admin.');
-        logout();
-        window.location.href = '/login';
-      }
-      
-    } catch (error) {
-      console.error('Error checking user status:', error);
+    // Check if user is blocked (blocked is a boolean field)
+    if (latestUser.blocked === true) {
+      alert('Your account has been blocked by the admin.');
+      logout();
+      window.location.href = '/login';
     }
-  };
+
+  } catch (error) {
+    console.error('Error checking user status:', error);
+  }
+}
 
   const register = async (name, email, password) => {
     try {
@@ -94,8 +93,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('access', access);
       localStorage.setItem('refresh', refresh);
       
-      // Check if user is blocked
-      if (user.status === 'blocked') {
+      // Check if user is blocked (blocked is a boolean field)
+      if (user.blocked === true) {
         return { success: false, message: "Your account has been blocked by the admin." };
       }
 

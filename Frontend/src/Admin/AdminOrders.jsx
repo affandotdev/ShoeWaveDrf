@@ -13,9 +13,9 @@ const AdminOrders = () => {
     const fetchAll = async () => {
       try {
         const [ordersRes, usersRes, productsRes] = await Promise.all([
-          api.get('/orders/'),
-          api.get('/users/'),
-          api.get('/Products/'),
+          api.get('/admin/orders/'),
+          api.get('/admin/users/'),
+          api.get('/products/'),
         ]);
 
         setOrders(ordersRes.data);
@@ -33,13 +33,13 @@ const AdminOrders = () => {
 
   const getUserName = (userId) => {
     const user = users.find((u) => u.id === userId);
-    return user ? user.name : "Unknown User";
+    return user ? (user.username || user.email || `User ${user.id}`) : "Unknown User";
   };
 
   const handleChangeStatus = async (orderId, newStatus) => {
     try {
       // Send PATCH request to update only the 'status' field
-      await api.patch(`/orders/${orderId}/`, {
+      await api.patch(`/admin/orders/${orderId}/`, {
         status: newStatus,
       });
 
@@ -128,14 +128,14 @@ const AdminOrders = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800">
                       <Link
-                        to={`/admin/user/${order.userId}/`}
+                        to={`/admin/user/${order.user}/`}
                         className="hover:underline"
                       >
-                        {getUserName(order.userId)}
+                        {getUserName(order.user)}
                       </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">
-                      ${parseFloat(order.total || 0).toFixed(2)}
+                      ₹{parseFloat(order.total || 0).toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(order.date).toLocaleDateString("en-US", {

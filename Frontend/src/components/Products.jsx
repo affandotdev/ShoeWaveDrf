@@ -2,10 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { Heart } from "lucide-react";
+import { Heart, ScanFaceIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../apicall/axios";
+
+// Helper function to get full image URL
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return '/images/placeholder.jpg';
+  if (imagePath.startsWith('http')) return imagePath;
+  return `http://127.0.0.1:8000${imagePath}`;
+};
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -14,7 +21,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const productsPerPage = 8;
-  const [priceRange, setPriceRange] = useState([0, 500]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
 
 
 
@@ -147,7 +154,7 @@ const Products = () => {
                 <div className="flex items-center gap-2">
                   <span className="text-gray-700 font-semibold text-lg">Price Range:</span>
                   <span className="px-3 py-1 bg-gradient-to-r from-violet-100 to-purple-100 text-violet-700 rounded-full font-semibold">
-                    ${priceRange[0]} - ${priceRange[1]}
+                    ₹{priceRange[0]} - ₹{priceRange[1]}
                   </span>
                 </div>
 
@@ -283,7 +290,7 @@ const Products = () => {
                   <button
                     onClick={() => {
                       if (!isInWishlist(product.id)) {
-                        addToWishlist(product);
+                        addToWishlist(product.id);
                         toast.info(`❤️ ${product.name} added to wishlist!`, {
                           position: "top-right",
                           autoClose: 2000,
@@ -316,7 +323,7 @@ const Products = () => {
                   <Link to={`/products/${product.id}`} className="block relative overflow-hidden">
                     <div className="aspect-w-1 aspect-h-1 h-64 overflow-hidden">
                       <img
-                        src={product.image}
+                        src={getImageUrl(product.image)}
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
@@ -343,7 +350,7 @@ const Products = () => {
                     <div className="flex items-center justify-between">
                       <div className="space-y-1">
                         <div className="text-3xl font-extrabold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                          ${product.price}
+                          ₹{product.price}
                         </div>
                         <div className="text-sm text-gray-500">Free shipping</div>
                       </div>
@@ -351,7 +358,7 @@ const Products = () => {
                       <button
                         onClick={() => {
                           if (!isInCart(product.id)) {
-                            addToCart(product);
+                            addToCart(product.id, 1);
                             toast.success(`🛒 ${product.name} added to cart!`, {
                               position: "top-right",
                               autoClose: 2000,
@@ -370,21 +377,17 @@ const Products = () => {
                           : "bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-700 hover:to-purple-700"
                           }`}
                       >
-                        <span className="relative z-10 flex items-center gap-2">
+                        <span className="relative z-10 flex items-center gap-2 ">
                           {isInCart(product.id) ? (
-                            <>
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                              </svg>
+                            <span className="text-md">
+                              {/* <ScanFaceIcon/> */}
                               In Cart
-                            </>
+                            </span>
                           ) : (
-                            <>
-                              <svg className="w-4 h-4 group-hover/btn:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13v6a2 2 0 002 2h8.5m-10.5-8h10"></path>
-                              </svg>
+                            <span className="text-md">
+                             
                               Add to Cart
-                            </>
+                            </span>
                           )}
                         </span>
                       </button>

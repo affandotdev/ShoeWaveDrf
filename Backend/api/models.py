@@ -1,5 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import uuid
+from django.utils import timezone
+from datetime import timedelta
+from django.utils import timezone
+import datetime
 
 class User(AbstractUser):
     ROLE_CHOICES = (
@@ -66,6 +71,8 @@ class Order(models.Model):
     status = models.CharField(max_length=50, default="Pending")
     date = models.DateTimeField(auto_now_add=True)
     
+    class Meta:
+        ordering = ['-date']
 
     def __str__(self):
         return f"Order {self.id} - {self.user.email}"
@@ -78,3 +85,31 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.order.id} - {self.product.name}"
+
+
+class PasswordResetToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    used = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if not self.expires_at:
+            self.expires_at = timezone.now() + timedelta(hours=1)
+        super().save(*args, **kwargs)
+
+    def is_valid(self):
+        return not self.used and timezone.now() < self.expires_at
+
+    def __str__(self):
+        return f"Password reset token for {self.user.email}"
+
+    
+class PasswordResetOTP(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def is_expired(self):
+        return timezone.now() > self.created_at + datetime.timedelta(minutes=10)    

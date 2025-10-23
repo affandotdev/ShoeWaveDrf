@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Product, CartItem, Order, OrderItem, Wishlist
+from .models import Product
+
+
 
 User = get_user_model()
 
@@ -9,7 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-
+       
 
 # ---------------- Cart Serializer ----------------
 class CartItemSerializer(serializers.ModelSerializer):
@@ -30,22 +33,18 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 # ---------------- Wishlist Serializer ----------------
 class WishlistSerializer(serializers.ModelSerializer):
-    product = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), write_only=True
+    product = ProductSerializer(read_only=True)
+    product_id = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(), write_only=True, source='product'
     )
-    product_details = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Wishlist
-        fields = ['id', 'product', 'product_details']
+        fields = ['id', 'product', 'product_id']
 
-    def get_product_details(self, obj):
-        return {
-            'id': obj.product.id,
-            'name': obj.product.name,
-            'price': obj.product.price,
-            'category': obj.product.category,
-        }
+    def create(self, validated_data):
+        product = validated_data.pop('product')
+        return Wishlist.objects.create(product=product, **validated_data)
 
 
 
@@ -87,3 +86,16 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+
+# ---------------- Password Reset Serializers ----------------
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    token = serializers.UUIDField()
+    new_password = serializers.CharField(min_length=6, write_only=True)
+
+
+    

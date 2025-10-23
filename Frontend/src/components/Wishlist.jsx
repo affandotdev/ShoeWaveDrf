@@ -49,9 +49,9 @@ const Wishlist = () => {
                 <div className="flex gap-4">
                   <motion.button
                     onClick={() => {
-                      // Pass the product data to addToCart
-                      const productData = item.product || item;
-                      addToCart(productData);
+                      // Pass the product ID to addToCart
+                      const productId = item.product?.id || item.id;
+                      addToCart(productId);
                       removeFromWishlist(item.id);
                     }}
                     whileTap={{ scale: 0.9 }}

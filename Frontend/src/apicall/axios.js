@@ -5,13 +5,19 @@ const api = axios.create({
 });
 
 // Attach token automatically if available
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+api.interceptors.request.use(
+  (config) => {
+    // Always get the latest token from localStorage
+    const token = localStorage.getItem("access");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-});
+);
 
 // Refresh token on 401 and retry original request
 let isRefreshing = false;
@@ -36,6 +42,11 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       const refresh = localStorage.getItem("refresh");
       if (!refresh) {
+        // Redirect to login if no refresh token
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("user");
+        window.location.href = "/login";
         return Promise.reject(error);
       }
 
@@ -60,13 +71,16 @@ api.interceptors.response.use(
         const newAccess = data.access;
         localStorage.setItem("access", newAccess);
         api.defaults.headers.common.Authorization = `Bearer ${newAccess}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccess}`;
         processQueue(null, newAccess);
         return api(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
-        // Clear tokens on failure
+        // Clear tokens on failure and redirect to login
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
+        localStorage.removeItem("user");
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

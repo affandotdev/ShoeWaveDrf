@@ -137,9 +137,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
 }
 
 # Simple JWT configuration
@@ -156,4 +159,22 @@ AUTH_USER_MODEL = 'api.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Razorpay keys (set these via environment variables in production)
+RAZORPAY_KEY_ID = "rzp_test_RWWXUCyGJr1BWl"
+RAZORPAY_KEY_SECRET = "R8a5C5LZfi63y5hYoYsZBtsj"
+
+# Email Configuration for Password Reset
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'affuafk123@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'zvif ruzd yppg szyf')
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', 'affuafk123@gmail.com')
+EMAIL_TIMEOUT = 10
+
+# Frontend URL for password reset links
+FRONTEND_URL = 'http://localhost:5173'
 

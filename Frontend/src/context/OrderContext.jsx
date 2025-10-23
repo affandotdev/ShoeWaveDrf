@@ -24,7 +24,12 @@ export const OrderProvider = ({ children }) => {
 
     setLoading(true);
     try {
-      const response = await api.get('orders/');
+      const token = localStorage.getItem("access");
+      const response = await api.get('orders/', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setOrders(response.data);
       return response.data;
 
@@ -42,7 +47,12 @@ export const OrderProvider = ({ children }) => {
     }
 
     try {
-      const response = await api.post('orders/', orderData);
+      const token = localStorage.getItem("access");
+      const response = await api.post('orders/', orderData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const createdOrder = response.data;
       setOrders(prev => [createdOrder, ...prev]);
       
@@ -56,7 +66,12 @@ export const OrderProvider = ({ children }) => {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      const response = await api.patch(`orders/${orderId}/`, { status: newStatus });
+      const token = localStorage.getItem("access");
+      const response = await api.patch(`orders/${orderId}/`, { status: newStatus }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const updatedOrder = response.data;
 
       setOrders(prev => 
@@ -79,7 +94,12 @@ export const OrderProvider = ({ children }) => {
 
   const getOrderById = async (orderId) => {
     try {
-      const response = await api.get(`orders/${orderId}/`);
+      const token = localStorage.getItem("access");
+      const response = await api.get(`orders/${orderId}/`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const order = response.data;
 
       if (String(order.user) !== String(user?.id)) {
