@@ -109,18 +109,18 @@ const UserOrders = () => {
                         </div>
                         <div className="text-right">
                           <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-bold shadow-lg transform group-hover:scale-105 transition-all duration-300 ${
-                            order.status.toLowerCase() === 'delivered'
+                            order.status === 'Delivered'
                               ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-green-200'
-                              : order.status.toLowerCase() === 'cancelled'
+                              : order.status === 'Cancelled'
                               ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-red-200'
-                              : order.status.toLowerCase() === 'shipping'
+                              : order.status === 'Shipping'
                               ? 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white shadow-blue-200'
                               : 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-yellow-200'
                           }`}>
                             <div className={`w-2 h-2 rounded-full mr-2 animate-pulse ${
-                              order.status.toLowerCase() === 'delivered' ? 'bg-green-200' :
-                              order.status.toLowerCase() === 'cancelled' ? 'bg-red-200' :
-                              order.status.toLowerCase() === 'shipping' ? 'bg-blue-200' : 'bg-yellow-200'
+                              order.status === 'Delivered' ? 'bg-green-200' :
+                              order.status === 'Cancelled' ? 'bg-red-200' :
+                              order.status === 'Shipping' ? 'bg-blue-200' : 'bg-yellow-200'
                             }`}></div>
                             {order.status}
                           </span>
@@ -170,8 +170,8 @@ const UserOrders = () => {
                         </div>
 
                         <div>
-                          {order.status.toLowerCase() !== 'cancelled' &&
-                          order.status.toLowerCase() !== 'delivered' ? (
+                          {order.status !== 'Cancelled' &&
+                          order.status !== 'Delivered' ? (
                             <button
                               onClick={() => cancelOrder(order.id)}
                               className="group/btn flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl font-semibold hover:from-red-600 hover:to-red-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -184,13 +184,13 @@ const UserOrders = () => {
                           ) : (
                             <div className="flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-600 rounded-xl font-medium">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                {order.status.toLowerCase() === 'cancelled' ? (
+                                {order.status === 'Cancelled' ? (
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
                                 ) : (
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                                 )}
                               </svg>
-                              <span>{order.status.toLowerCase() === 'cancelled' ? 'Order Cancelled' : 'Order Delivered'}</span>
+                              <span>{order.status === 'Cancelled' ? 'Order Cancelled' : 'Order Delivered'}</span>
                             </div>
                           )}
                         </div>

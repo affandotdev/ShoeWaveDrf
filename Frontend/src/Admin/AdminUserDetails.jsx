@@ -57,6 +57,12 @@ const AdminUserDetails = () => {
 
   // Delete user
   const deleteUser = async () => {
+    // Prevent self-deletion
+    if (user.id === currentAdmin.id) {
+      alert("You cannot delete yourself!");
+      return;
+    }
+
     if (!window.confirm("Are you sure you want to delete this user?")) return;
 
     try {
@@ -127,7 +133,7 @@ const AdminUserDetails = () => {
             </p>
             {user.id === currentAdmin.id && (
               <p className="text-sm text-gray-500 italic mt-1">
-                You cannot block yourself
+                You cannot block or delete yourself
               </p>
             )}
           </div>
@@ -149,7 +155,12 @@ const AdminUserDetails = () => {
             {/* Delete */}
             <button
               onClick={deleteUser}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-lg font-medium transition-all duration-200 shadow hover:shadow-md"
+              disabled={user.id === currentAdmin.id}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow hover:shadow-md ${
+                user.id === currentAdmin.id
+                  ? "bg-gray-400 cursor-not-allowed text-white"
+                  : "bg-gray-700 hover:bg-gray-800 text-white"
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -166,6 +177,11 @@ const AdminUserDetails = () => {
               Delete User
             </button>
           </div>
+          {user.id === currentAdmin.id && (
+            <p className="text-sm text-gray-500 italic mt-2">
+              You cannot delete yourself
+            </p>
+          )}
         </div>
       </div>
 

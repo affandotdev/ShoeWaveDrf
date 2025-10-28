@@ -7,7 +7,7 @@ from .models import Category
 
 User = get_user_model()
 
-# ---------------- Product Serializer ----------------
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
@@ -21,7 +21,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 
-# ---------------- Cart Serializer ----------------
+
+
 class CartItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
     product_id = serializers.PrimaryKeyRelatedField(
@@ -33,12 +34,12 @@ class CartItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'product_id', 'quantity']
 
     def create(self, validated_data):
-        product = validated_data.pop('product_id')  # DRF converts ID → Product instance
+        product = validated_data.pop('product_id')  
         return CartItem.objects.create(product=product, **validated_data)
 
 
 
-# ---------------- Wishlist Serializer ----------------
+
 class WishlistSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
     product_id = serializers.PrimaryKeyRelatedField(
@@ -55,7 +56,7 @@ class WishlistSerializer(serializers.ModelSerializer):
 
 
 
-# ---------------- OrderItem Serializer ----------------
+
 class OrderItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
     product_id = serializers.PrimaryKeyRelatedField(
@@ -66,7 +67,9 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = ['id', 'product', 'product_id', 'quantity']
 
-# ---------------- Order Serializer ----------------
+
+
+
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
     
@@ -76,14 +79,14 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only_fields = ['user', 'date']
 
 
-# ---------------- User Serializer ----------------
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'role', 'status', 'blocked']
 
 
-# ---------------- Register Serializer ----------------
+
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -95,7 +98,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-# ---------------- Password Reset Serializers ----------------
+
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
 

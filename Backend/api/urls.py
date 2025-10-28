@@ -20,8 +20,17 @@ router.register(r'admin/users', AdminUserViewSet, basename='admin-users')
 router.register(r'admin/orders', AdminOrderViewSet, basename='admin-orders')
 router.register(r'users', UserViewSet, basename='user')
 
+
 urlpatterns = [
+    # Specific routes BEFORE router (to prevent router from catching them)
+    path('products/top-selling/', TopSellingProductsView.as_view(), name='top-selling-products'),
+    path('products/', ProductListCreateView.as_view(), name='product-list-create'),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
+    
+    # Router URLs
     path('', include(router.urls)),
+    
+    # Other routes
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', CustomTokenObtainPairView.as_view(), name='login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -30,9 +39,6 @@ urlpatterns = [
     path('admin/analytics/', AdminAnalyticsView.as_view(), name='admin-analytics'),
     path('password-reset/request-otp/', PasswordResetRequestOTPView.as_view(), name='password-reset-request-otp'),
     path('password-reset/verify-otp/', PasswordResetVerifyOTPView.as_view(), name='password-reset-verify-otp'),
-    path('products/', ProductListCreateView.as_view(), name='product-list-create'),
-    path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
     path('admins/block/<int:id>/', BlockAdminAPIView.as_view(), name='block-admin'),
-    path('products/top-selling/', TopSellingProductsView.as_view(), name='top-selling-products'),
     path('categories/', CategoryListView.as_view(), name='categories-list'),
 ]

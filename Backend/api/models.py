@@ -21,8 +21,10 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['username']
 
     def save(self, *args, **kwargs):
-        # Automatically set is_staff for admin role
-        if self.role == 'admin':
+        # Preserve is_staff for superusers
+        if self.is_superuser:
+            self.is_staff = True
+        elif self.role == 'admin':
             self.is_staff = True
         else:
             self.is_staff = False
@@ -45,10 +47,13 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     icon = models.CharField(max_length=10, default="👟")
+
+
 
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -57,6 +62,7 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.product.name}"
+
 
 
 class Wishlist(models.Model):
@@ -82,6 +88,7 @@ class Order(models.Model):
         return f"Order {self.id} - {self.user.email}"
 
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -89,6 +96,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.order.id} - {self.product.name}"
+
 
 
 class PasswordResetToken(models.Model):

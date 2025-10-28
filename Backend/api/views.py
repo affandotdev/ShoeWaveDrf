@@ -1,22 +1,17 @@
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.permissions import SAFE_METHODS, BasePermission, IsAuthenticated
 from rest_framework.decorators import action
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 from django.conf import settings
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Q
 from django.core.mail import send_mail
-from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from rest_framework import status
-from rest_framework.authentication import BasicAuthentication
-from django.contrib.auth.tokens import default_token_generator
 from .models import User
 from .models import PasswordResetOTP
 from django.contrib.auth import get_user_model
@@ -26,19 +21,17 @@ from .serializers import ProductSerializer
 from .models import Category
 from .serializers import CategorySerializer
 
-
-from .models import Product, CartItem, Order, OrderItem, Wishlist, PasswordResetToken
+from .models import Product, CartItem, Order, OrderItem, Wishlist
 from .serializers import (
     ProductSerializer, CartItemSerializer, WishlistSerializer,
-    OrderSerializer, RegisterSerializer, UserSerializer,
-     PasswordResetConfirmSerializer
+    OrderSerializer, UserSerializer,
 )
 
 User = get_user_model()
 
-# -----------------------------
-# Custom Permission
-# -----------------------------
+
+
+
 class IsAdminOrReadOnly(BasePermission):
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
@@ -51,47 +44,48 @@ class IsAdminOnly(BasePermission):
             return False
         return request.user.role == 'admin' or request.user.is_superuser
 
-# -----------------------------
-# User View (read-only)
-# -----------------------------
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):   
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Allow admin users to see all users, regular users only see themselves
+     
         if self.request.user.role == 'admin' or self.request.user.is_superuser:
             return User.objects.all()
         return User.objects.filter(id=self.request.user.id)
 
-# -----------------------------
-# Admin User Management ViewSet
-# -----------------------------
+
+
+
 class AdminUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, IsAdminOnly]
 
     def get_queryset(self):
-        # Only admin users can access this viewset
+       
         if self.request.user.role == 'admin' or self.request.user.is_superuser:
             return User.objects.all()
         return User.objects.none()
 
     def update(self, request, *args, **kwargs):
-        # Allow full updates
+     
         return super().update(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):
-        # Allow partial updates (PATCH) for fields like blocked status
+    
         return super().partial_update(request, *args, **kwargs)
 
-# -----------------------------
-# Register View
-# -----------------------------
+
+
+
+
 class RegisterView(APIView):
-    permission_classes = [AllowAny]  # ✅ important
+    permission_classes = [AllowAny]  
 
     def post(self, request):
         username = request.data.get('username')
@@ -107,21 +101,21 @@ class RegisterView(APIView):
         user = User.objects.create_user(username=username, email=email, password=password)
         return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
 
-# -----------------------------
-# Custom Login View
-# -----------------------------
+
+
+
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200:
-            # Get user from the token
+            
             user = User.objects.get(email=request.data.get('email'))
             response.data['user'] = UserSerializer(user).data
         return response
 
-# -----------------------------
-# Product CRUD
-# -----------------------------
+
+
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -135,6 +129,8 @@ class ProductViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+
+
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -143,9 +139,6 @@ class CategoryListView(generics.ListAPIView):
 
 
 
-# -----------------------------
-# Cart View
-# -----------------------------
 class CartViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
@@ -159,9 +152,11 @@ class CartViewSet(viewsets.ModelViewSet):
 
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
-# -----------------------------
-# Wishlist ViewSet
-# -----------------------------
+    
+
+
+
+
 class WishlistViewSet(viewsets.ModelViewSet):
     serializer_class = WishlistSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -170,13 +165,13 @@ class WishlistViewSet(viewsets.ModelViewSet):
         return Wishlist.objects.filter(user=self.request.user).select_related('product')
 
     def perform_create(self, serializer):
-        # DRF automatically converts product ID to Product instance
+        
         serializer.save(user=self.request.user)
 
 
-# -----------------------------
-# Order View
-# -----------------------------
+
+
+
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -188,24 +183,21 @@ class OrderViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         order = serializer.save(user=self.request.user)
         
-        # Get cart items for this user
+     
         cart_items = CartItem.objects.filter(user=self.request.user)
-        
-        # Create order items from cart items
+      
         for cart_item in cart_items:
             OrderItem.objects.create(
                 order=order,
                 product=cart_item.product,
                 quantity=cart_item.quantity
-            )
-        
-        # Clear cart after creating order
+            )        
         cart_items.delete()
 
 
-# -----------------------------
-# Admin Orders (all users)
-# -----------------------------
+
+
+
 class AdminOrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all().prefetch_related('items__product')
     serializer_class = OrderSerializer
@@ -215,104 +207,7 @@ class AdminOrderViewSet(viewsets.ModelViewSet):
         return super().partial_update(request, *args, **kwargs)
 
 
-# -----------------------------
-# Admin Analytics Dashboard
-# -----------------------------
-class AdminAnalyticsView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated, IsAdminOnly]
 
-    def get(self, request, *args, **kwargs):
-        total_sales = Order.objects.aggregate(total=Sum('total'))['total'] or 0
-        total_orders = Order.objects.count()
-        total_users = User.objects.count()
-        total_products = Product.objects.count()
-
-        # Monthly sales (last 12 months)
-        orders = Order.objects.all().order_by('date')
-        monthly = {}
-        for o in orders:
-            key = o.date.strftime('%b')
-            monthly[key] = float(monthly.get(key, 0)) + float(o.total)
-        monthly_sales = [{ 'month': m, 'sales': s } for m, s in monthly.items()]
-
-        # Status breakdown
-        status_counts = dict(Order.objects.values_list('status').annotate(cnt=Count('status')))
-
-        # Top products by quantity
-        top = {}
-        for oi in OrderItem.objects.select_related('product').all():
-            name = oi.product.name
-            top[name] = top.get(name, 0) + oi.quantity
-        top_products = [ { 'name': k, 'qty': v } for k, v in sorted(top.items(), key=lambda kv: kv[1], reverse=True)[:5] ]
-
-        return Response({
-            'totals': {
-                'total_sales': float(total_sales),
-                'total_orders': total_orders,
-                'total_users': total_users,
-                'total_products': total_products,
-            },
-            'monthly_sales': monthly_sales,
-            'status_counts': status_counts,
-            'top_products': top_products,
-        })
-
-
-# -----------------------------
-# Razorpay Payments
-# -----------------------------
-@method_decorator(csrf_exempt, name='dispatch')
-class RazorpayCreateOrderView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        amount = request.data.get('amount')
-        currency = request.data.get('currency', 'INR')
-        if not amount:
-            return Response({"detail": "amount is required"}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-            # Razorpay amount is in paise
-            int_amount = int(float(amount) * 100)
-            order = client.order.create(dict(amount=int_amount, currency=currency, payment_capture=1))
-            return Response({
-                'order_id': order.get('id'),
-                'amount': order.get('amount'),
-                'currency': order.get('currency'),
-                'key_id': settings.RAZORPAY_KEY_ID
-            })
-        except Exception as e:
-            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class RazorpayVerifyPaymentView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        try:
-            params_dict = {
-                'razorpay_order_id': request.data.get('razorpay_order_id'),
-                'razorpay_payment_id': request.data.get('razorpay_payment_id'),
-                'razorpay_signature': request.data.get('razorpay_signature'),
-            }
-
-            if not all(params_dict.values()):
-                return Response({"detail": "Missing payment verification parameters"}, status=status.HTTP_400_BAD_REQUEST)
-
-            client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-            client.utility.verify_payment_signature(params_dict)
-            return Response({"verified": True})
-        except razorpay.errors.SignatureVerificationError:
-            return Response({"verified": False, "detail": "Signature verification failed"}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({"verified": False, "detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
-# -----------------------------
-# Password Reset Views
-# -----------------------------
 
     
 class PasswordResetRequestOTPView(APIView):
@@ -328,7 +223,7 @@ class PasswordResetRequestOTPView(APIView):
             user = User.objects.get(email=email)
             otp = f"{random.randint(100000, 999999)}"
 
-            # Save OTP in your model
+            
             PasswordResetOTP.objects.create(user=user, otp=otp)
 
             send_mail(
@@ -371,13 +266,12 @@ class PasswordResetVerifyOTPView(APIView):
         if otp_obj.is_expired():
             return Response({'error': 'OTP expired'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Reset password
+        
         user.set_password(new_password)
         user.save()
 
-        # Delete used OTP
+       
         otp_obj.delete()
-
         return Response({'message': 'Password reset successful'}, status=status.HTTP_200_OK)    
 
 
@@ -393,6 +287,68 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+
+
+
+
+class TopSellingProductsView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        # Get top-selling products based on order quantity (excluding cancelled orders)
+        products_with_sales = Product.objects.annotate(
+            total_sold=Sum(
+                'orderitem__quantity',
+                filter=~Q(orderitem__order__status='Cancelled')
+            )
+        ).filter(total_sold__isnull=False).order_by('-total_sold')[:3]
+        
+        return products_with_sales    
+
+
+
+
+
+class AdminAnalyticsView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated, IsAdminOnly]
+
+    def get(self, request, *args, **kwargs):
+        total_sales = Order.objects.aggregate(total=Sum('total'))['total'] or 0
+        total_orders = Order.objects.count()
+        total_users = User.objects.count()
+        total_products = Product.objects.count()
+        total_admins = User.objects.filter(Q(role='admin') | Q(is_superuser=True)).count()
+
+        
+        orders = Order.objects.all().order_by('date')
+        monthly = {}
+        for o in orders:
+            key = o.date.strftime('%b')
+            monthly[key] = float(monthly.get(key, 0)) + float(o.total)
+        monthly_sales = [{ 'month': m, 'sales': s } for m, s in monthly.items()]
+
+        status_counts = dict(Order.objects.values_list('status').annotate(cnt=Count('status')))
+
+      
+        top = {}
+        for oi in OrderItem.objects.select_related('product').all():
+            name = oi.product.name
+            top[name] = top.get(name, 0) + oi.quantity
+        top_products = [ { 'name': k, 'qty': v } for k, v in sorted(top.items(), key=lambda kv: kv[1], reverse=True)[:5] ]
+
+        return Response({
+            'totals': {
+                'total_sales': float(total_sales),
+                'total_orders': total_orders,
+                'total_users': total_users,
+                'total_products': total_products,
+                'total_admins': total_admins,
+            },
+            'monthly_sales': monthly_sales,
+            'status_counts': status_counts,
+            'top_products': top_products,
+        })
 
 
 
@@ -416,17 +372,53 @@ class BlockAdminAPIView(APIView):
 
 
 
-class TopSellingProductsView(generics.ListAPIView):
-    serializer_class = ProductSerializer
-    permission_classes = [permissions.AllowAny]
 
-    def get_queryset(self):
-        # Calculate top-selling products based on order items
-        from django.db.models import Sum, Q
+@method_decorator(csrf_exempt, name='dispatch')
+class RazorpayCreateOrderView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        amount = request.data.get('amount')
+        currency = request.data.get('currency', 'INR')
+        if not amount:
+            return Response({"detail": "amount is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+            
+            int_amount = int(float(amount) * 100)
+            order = client.order.create(dict(amount=int_amount, currency=currency, payment_capture=1))
+            return Response({
+                'order_id': order.get('id'),
+                'amount': order.get('amount'),
+                'currency': order.get('currency'),
+                'key_id': settings.RAZORPAY_KEY_ID
+            })
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class RazorpayVerifyPaymentView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        try:
+            params_dict = {
+                'razorpay_order_id': request.data.get('razorpay_order_id'),
+                'razorpay_payment_id': request.data.get('razorpay_payment_id'),
+                'razorpay_signature': request.data.get('razorpay_signature'),
+            }
+
+            if not all(params_dict.values()):
+                return Response({"detail": "Missing payment verification parameters"}, status=status.HTTP_400_BAD_REQUEST)
+
+            client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+            client.utility.verify_payment_signature(params_dict)
+            return Response({"verified": True})
+        except razorpay.errors.SignatureVerificationError:
+            return Response({"verified": False, "detail": "Signature verification failed"}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"verified": False, "detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)        
         
-        # Get products with their total quantities sold
-        products_with_sales = Product.objects.annotate(
-            total_sold=Sum('orderitem__quantity', filter=Q(orderitem__order__status__in=['Delivered', 'Shipping']))
-        ).filter(total_sold__isnull=False).order_by('-total_sold')[:6]
-        
-        return products_with_sales        

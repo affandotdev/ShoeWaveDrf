@@ -89,7 +89,7 @@ export const OrderProvider = ({ children }) => {
   };
 
   const cancelOrder = async (orderId) => {
-    return updateOrderStatus(orderId, 'cancelled');
+    return updateOrderStatus(orderId, 'Cancelled');
   };
 
   const getOrderById = async (orderId) => {

@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [salesData, setSalesData] = useState([]);
   const [deliveryChartData, setDeliveryChartData] = useState([]);
-  const [totals, setTotals] = useState({ total_sales: 0, total_orders: 0, total_users: 0, total_products: 0 });
+  const [totals, setTotals] = useState({ total_sales: 0, total_orders: 0, total_users: 0, total_products: 0, total_admins: 0 });
   const [topProducts, setTopProducts] = useState([]);
 
   const COLORS = ["#4F46E5", "#10B981", "#F59E0B", "#EF4444", "#3B82F6"];
@@ -55,6 +55,7 @@ const AdminDashboard = () => {
   const totalOrders = totals.total_orders;
   const totalUsers = totals.total_users;
   const totalProducts = totals.total_products;
+  const totalAdmins = totals.total_admins;
 
 
   // salesData, deliveryChartData now from backend
@@ -66,10 +67,10 @@ const AdminDashboard = () => {
         <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 text-center mb-8">Admin Dashboard 📊</h1>
 
       
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Revenue</h2>
-            <p className="text-3xl font-bold text-indigo-600 mt-2">₹{totalSales.toFixed(2)}</p>
+            <p className="text-1xl font-bold text-red-500 mt-3">₹{totalSales.toFixed(2)}</p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Orders</h2>
@@ -83,7 +84,10 @@ const AdminDashboard = () => {
             <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Products</h2>
             <p className="text-3xl font-bold text-indigo-600 mt-2">{totalProducts}</p>
           </div>
-
+          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Admins</h2>
+            <p className="text-3xl font-bold text-rose-600 mt-2">{totalAdmins}</p>
+          </div>
         </div>
 
     
