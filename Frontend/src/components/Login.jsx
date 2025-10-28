@@ -86,18 +86,18 @@ const Login = () => {
     <div
       className="login-container"
       style={{
-        maxWidth: '400px',
-        margin: '50px auto',
-        padding: '20px',
+        maxWidth: '350px',
+        margin: '30px auto',
+        padding: '15px',
         border: '1px solid #ddd',
-        borderRadius: '8px',
+        borderRadius: '6px',
         backgroundColor: '#f9f9f9'
       }}
     >
-      <h2 style={{ textAlign: 'center', marginBottom: '10px', color: '#333' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '8px', color: '#333', fontSize: '22px' }}>
         Welcome Back
       </h2>
-      <p style={{ textAlign: 'center', color: '#666', marginBottom: '30px' }}>
+      <p style={{ textAlign: 'center', color: '#666', marginBottom: '20px', fontSize: '13px' }}>
         Sign in to your account
       </p>
 
@@ -107,10 +107,11 @@ const Login = () => {
             style={{
               backgroundColor: '#d4edda',
               color: '#155724',
-              padding: '10px',
+              padding: '8px',
               borderRadius: '4px',
-              marginBottom: '20px',
-              border: '1px solid #c3e6cb'
+              marginBottom: '15px',
+              border: '1px solid #c3e6cb',
+              fontSize: '13px'
             }}
           >
             ✅ {registrationMessage}
@@ -122,18 +123,19 @@ const Login = () => {
             style={{
               backgroundColor: '#f8d7da',
               color: '#721c24',
-              padding: '10px',
+              padding: '8px',
               borderRadius: '4px',
-              marginBottom: '20px',
-              border: '1px solid #f5c6cb'
+              marginBottom: '15px',
+              border: '1px solid #f5c6cb',
+              fontSize: '13px'
             }}
           >
             ⚠️ {error}
           </div>
         )}
 
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+        <div style={{ marginBottom: '15px' }}>
+          <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', fontSize: '13px' }}>
             Email Address
           </label>
           <input
@@ -146,16 +148,16 @@ const Login = () => {
             disabled={loading}
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '8px',
               border: '1px solid #ddd',
               borderRadius: '4px',
-              fontSize: '16px'
+              fontSize: '14px'
             }}
           />
         </div>
 
-        <div style={{ marginBottom: '30px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', fontSize: '13px' }}>
             Password
           </label>
           <input
@@ -168,19 +170,19 @@ const Login = () => {
             disabled={loading}
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '8px',
               border: '1px solid #ddd',
               borderRadius: '4px',
-              fontSize: '16px'
+              fontSize: '14px'
             }}
           />
-          <div style={{ textAlign: 'right', marginTop: '5px' }}>
+          <div style={{ textAlign: 'right', marginTop: '4px' }}>
             <Link 
               to="/forgot-password" 
               style={{ 
                 color: '#007bff', 
                 textDecoration: 'none',
-                fontSize: '14px'
+                fontSize: '12px'
               }}
             >
               Forgot Password?
@@ -193,12 +195,12 @@ const Login = () => {
           disabled={loading}
           style={{
             width: '100%',
-            padding: '12px',
+            padding: '10px',
             backgroundColor: loading ? '#ccc' : '#28a745',
             color: 'white',
             border: 'none',
             borderRadius: '4px',
-            fontSize: '16px',
+            fontSize: '14px',
             fontWeight: 'bold',
             cursor: loading ? 'not-allowed' : 'pointer'
           }}
@@ -207,7 +209,7 @@ const Login = () => {
         </button>
       </form>
 
-      <p style={{ textAlign: 'center', marginTop: '20px', color: '#666' }}>
+      <p style={{ textAlign: 'center', marginTop: '15px', color: '#666', fontSize: '13px' }}>
         Don't have an account?{' '}
         <Link to="/register" style={{ color: '#007bff', textDecoration: 'none' }}>
           Create one here

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -9,13 +9,24 @@ import {
   MdAssignment,
   MdPerson,
   MdLogout,
-  MdEmail
+  MdEmail,
+  MdMenu,
+  MdClose
 } from "react-icons/md";
 
 const AdminLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
 
   const menuItems = [
     { path: "/admin/dashboard", label: "Dashboard", icon: <MdDashboard /> },
@@ -32,8 +43,27 @@ const AdminLayout = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
+      {/* Hamburger Menu Button - Always Visible */}
+      <button
+        onClick={toggleSidebar}
+        className="fixed top-4 left-4 z-50 bg-gray-900 text-white p-3 rounded-lg shadow-lg hover:bg-gray-800 transition-all duration-300"
+        aria-label="Toggle Sidebar"
+      >
+        {isSidebarOpen ? <MdClose className="text-2xl" /> : <MdMenu className="text-2xl" />}
+      </button>
+
+      {/* Overlay - appears when sidebar is open */}
+      {isSidebarOpen && (
+        <div
+          onClick={closeSidebar}
+          className="fixed inset-0 backdrop-blur-sm bg-white/30 z-30"
+        ></div>
+      )}
   
-      <aside className="w-64 bg-gray-900 text-white flex flex-col justify-between fixed top-0 left-0 h-full shadow-lg">
+      {/* Sidebar */}
+      <aside className={`w-64 bg-gray-900 text-white flex flex-col justify-between fixed top-0 left-0 h-full shadow-lg z-40 transform transition-transform duration-300 ease-in-out ${
+        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
         <div>
           <h2 className="text-3xl font-extrabold text-center py-6 border-b border-gray-700">
             Admin Panel
@@ -43,6 +73,7 @@ const AdminLayout = () => {
               <Link
                 key={item.path}
                 to={item.path}
+                onClick={closeSidebar}
                 className={`flex items-center gap-3 px-6 py-3 text-lg font-medium rounded-lg transition-all duration-200
                   ${location.pathname === item.path
                     ? "bg-blue-600 text-white"
@@ -70,7 +101,10 @@ const AdminLayout = () => {
         </div>
       </aside>
 
-      <main className="flex-1 ml-64 p-8 overflow-y-auto">
+      {/* Main Content */}
+      <main className={`flex-1 p-8 overflow-y-auto pt-20 transition-all duration-300 ${
+        isSidebarOpen ? 'ml-64' : 'ml-0'
+      }`}>
         <Outlet />
       </main>
     </div>

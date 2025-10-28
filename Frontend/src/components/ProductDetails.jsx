@@ -64,50 +64,51 @@ const ProductDetails = () => {
 
   if (!product)
     return (
-      <p style={{ textAlign: "center", marginTop: "50px" }}>
+      <p style={{ textAlign: "center", marginTop: "30px", fontSize: "14px" }}>
         Loading product details...
       </p>
     );
 
   return (
-    <div style={{ maxWidth: "900px", margin: "50px auto", padding: "20px" }}>
+    <div style={{ maxWidth: "800px", margin: "30px auto", padding: "15px" }}>
       {/* Product Image */}
-      <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "15px" }}>
         <img
           src={getImageUrl(product.image)}
           alt={product.name}
           style={{
             width: "100%",
-            maxWidth: "500px",
+            maxWidth: "400px",
             height: "auto",
-            borderRadius: "10px",
+            borderRadius: "8px",
             objectFit: "cover",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
           }}
         />
       </div>
 
       {/* Product Info */}
-      <h2 style={{ fontSize: "28px", marginBottom: "10px" }}>{product.name}</h2>
-      <p style={{ fontSize: "22px", fontWeight: "bold", color: "green" }}>
+      <h2 style={{ fontSize: "22px", marginBottom: "8px" }}>{product.name}</h2>
+      <p style={{ fontSize: "18px", fontWeight: "bold", color: "green" }}>
         ₹{product.price}
       </p>
-      <p style={{ marginTop: "15px", color: "#555", lineHeight: "1.6" }}>
+      <p style={{ marginTop: "12px", color: "#555", lineHeight: "1.5", fontSize: "14px" }}>
         {product.description}
       </p>
 
       {/* Buttons */}
-      <div style={{ marginTop: "25px", display: "flex", gap: "15px" }}>
+      <div style={{ marginTop: "20px", display: "flex", gap: "12px" }}>
         <button
           onClick={handleAddToCart}
           style={{
-            padding: "12px 25px",
+            padding: "10px 20px",
             background: "#2563EB",
             color: "#fff",
             border: "none",
-            borderRadius: "8px",
+            borderRadius: "6px",
             cursor: "pointer",
             fontWeight: "600",
+            fontSize: "14px",
           }}
         >
           Add to Cart
@@ -116,13 +117,14 @@ const ProductDetails = () => {
         <button
           onClick={handleAddToWishlist}
           style={{
-            padding: "12px 25px",
+            padding: "10px 20px",
             background: "#DC2626",
             color: "#fff",
             border: "none",
-            borderRadius: "8px",
+            borderRadius: "6px",
             cursor: "pointer",
             fontWeight: "600",
+            fontSize: "14px",
           }}
         >
           Add to Wishlist

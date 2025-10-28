@@ -131,8 +131,14 @@ const updateQuantity = async (itemId, newQuantity) => {
     try {
       setLoading(true);
     
+      // Try to delete each cart item, but ignore 404 errors (already deleted by backend)
       const deletePromises = cartItems.map(item => 
-        api.delete(`/cart/${item.id}/`)
+        api.delete(`/cart/${item.id}/`).catch(err => {
+          // Ignore 404 errors (item already deleted)
+          if (err.response?.status !== 404) {
+            throw err;
+          }
+        })
       );
       
       await Promise.all(deletePromises);
@@ -147,7 +153,9 @@ const updateQuantity = async (itemId, newQuantity) => {
       });
     } catch (error) {
       console.error('Error clearing cart:', error);
-      toast.error('Failed to clear cart', {
+      // Still clear the local state even if API call fails
+      setCartItems([]);
+      toast.error('Cart cleared locally', {
         position: "top-right",
         autoClose: 2000,
         theme: "colored"

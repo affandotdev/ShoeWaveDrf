@@ -12,6 +12,8 @@ from django.core.mail import send_mail
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.exceptions import ValidationError
+from rest_framework import viewsets, generics, permissions, status
 from .models import User
 from .models import PasswordResetOTP
 from django.contrib.auth import get_user_model
@@ -181,18 +183,29 @@ class OrderViewSet(viewsets.ModelViewSet):
         return Order.objects.filter(user=self.request.user).prefetch_related('items__product')
 
     def perform_create(self, serializer):
-        order = serializer.save(user=self.request.user)
-        
-     
-        cart_items = CartItem.objects.filter(user=self.request.user)
-      
-        for cart_item in cart_items:
-            OrderItem.objects.create(
-                order=order,
-                product=cart_item.product,
-                quantity=cart_item.quantity
-            )        
-        cart_items.delete()
+        try:
+            order = serializer.save(user=self.request.user)
+            
+            # Get cart items for the current user
+            cart_items = CartItem.objects.filter(user=self.request.user)
+            
+            if not cart_items.exists():
+                raise ValidationError("Cart is empty. Cannot create order.")
+            
+            # Create order items from cart items
+            for cart_item in cart_items:
+                OrderItem.objects.create(
+                    order=order,
+                    product=cart_item.product,
+                    quantity=cart_item.quantity
+                )
+            
+            # Clear cart after order creation
+            cart_items.delete()
+            
+        except Exception as e:
+            print(f"Error creating order: {str(e)}")
+            raise ValidationError(f"Failed to create order: {str(e)}")
 
 
 
@@ -204,6 +217,11 @@ class AdminOrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsAdminOnly]
 
     def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # If admin is changing status to Cancelled, mark it as admin-cancelled
+        if request.data.get('status') == 'Cancelled' and instance.status != 'Cancelled':
+            instance.cancelled_by_admin = True
+            instance.save()
         return super().partial_update(request, *args, **kwargs)
 
 

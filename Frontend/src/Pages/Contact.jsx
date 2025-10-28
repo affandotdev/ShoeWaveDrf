@@ -41,21 +41,21 @@ const Contact = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-      <div className="max-w-4xl mx-auto px-6">
-        <h1 className="text-4xl font-extrabold text-gray-800 text-center mb-6">
+    <section className="py-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+      <div className="max-w-4xl mx-auto px-4">
+        <h1 className="text-3xl font-extrabold text-gray-800 text-center mb-3">
           Contact <span className="text-blue-600">Us</span>
         </h1>
-        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+        <p className="text-sm text-gray-600 text-center mb-6 max-w-2xl mx-auto">
           Have questions or need help? Fill out the form below and our team will
           get in touch with you shortly.
         </p>
 
-        <div className="bg-white p-8 rounded-2xl shadow-lg">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="bg-white p-4 rounded-xl shadow-md">
+          <form onSubmit={handleSubmit} className="space-y-3">
         
             <div>
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className="block text-gray-700 font-medium mb-1.5 text-sm">
                 Full Name
               </label>
               <input
@@ -64,14 +64,14 @@ const Contact = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
                 placeholder="Enter your name"
               />
             </div>
 
             
             <div>
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className="block text-gray-700 font-medium mb-1.5 text-sm">
                 Email Address
               </label>
               <input
@@ -80,14 +80,14 @@ const Contact = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
                 placeholder="Enter your email"
               />
             </div>
 
           
             <div>
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className="block text-gray-700 font-medium mb-1.5 text-sm">
                 Message
               </label>
               <textarea
@@ -95,8 +95,8 @@ const Contact = () => {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                rows="5"
-                className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                rows="4"
+                className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
                 placeholder="Write your message..."
               ></textarea>
             </div>
@@ -105,7 +105,7 @@ const Contact = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 rounded-xl font-semibold transition duration-300 ${
+              className={`w-full py-2 text-sm rounded-lg font-semibold transition duration-300 ${
                 loading
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-blue-600 text-white hover:bg-blue-700"
@@ -117,12 +117,12 @@ const Contact = () => {
         </div>
 
       
-        <div className="mt-12 text-center">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">
+        <div className="mt-6 text-center">
+          <h3 className="text-lg font-bold text-gray-800 mb-2">
             Or reach us directly:
           </h3>
-          <p className="text-gray-600">📞 1234567</p>
-          <p className="text-gray-600">✉ support@shoewave.com</p>
+          <p className="text-sm text-gray-600">📞 1234567</p>
+          <p className="text-sm text-gray-600">✉ support@shoewave.com</p>
         </div>
       </div>
 

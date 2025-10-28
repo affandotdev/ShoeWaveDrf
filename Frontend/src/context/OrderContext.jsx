@@ -76,7 +76,7 @@ export const OrderProvider = ({ children }) => {
 
       setOrders(prev => 
         prev.map(order => 
-          order.id === orderId ? { ...order, status: newStatus } : order
+          order.id === orderId ? updatedOrder : order
         )
       );
 

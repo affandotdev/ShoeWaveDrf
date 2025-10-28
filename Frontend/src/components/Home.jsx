@@ -53,10 +53,10 @@ const Home = () => {
   }, []);
 
   return (
-    <section className="bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 min-h-screen flex flex-col items-center justify-center px-4 py-8">
+    <section className="bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 min-h-screen flex flex-col items-center justify-center px-3 py-4">
 
       {/* Hero Video Section */}
-      <div className="relative w-full h-screen flex items-center justify-center overflow-hidden rounded-3xl shadow-2xl">
+      <div className="relative w-full h-screen flex items-center justify-center overflow-hidden rounded-2xl shadow-xl">
         <video
           autoPlay
           muted
@@ -80,54 +80,54 @@ const Home = () => {
           />
         )}
 
-        <div className="relative z-20 text-center px-4 transform transition-all duration-1000 hover:scale-105">
-          <h1 className="text-6xl sm:text-8xl font-black text-white leading-none drop-shadow-2xl animate-productBob bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">
+        <div className="relative z-20 text-center px-3 transform transition-all duration-1000 hover:scale-105">
+          <h1 className="text-4xl sm:text-6xl font-black text-white leading-none drop-shadow-xl animate-productBob bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">
             shoe
             <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
               Wave
             </span>
           </h1>
-          <p className="text-xl text-white/90 mt-6 font-medium drop-shadow-lg tracking-wide">
+          <p className="text-base text-white/90 mt-3 font-medium drop-shadow-md tracking-wide">
             Sneakers 2024 Limited Edition
           </p>
           <button
             onClick={() => navigate("/products")}
-            className="mt-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white px-10 py-4 rounded-full text-lg font-bold hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-110 hover:shadow-2xl shadow-lg border border-white/20"
+            className="mt-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-110 hover:shadow-xl shadow-md border border-white/20"
           >
             Shop Now
           </button>
         </div>
       </div>
 {/* Shop by Brand Section */}
-<div className="max-w-7xl w-full mt-20">
-  <div className="text-center mb-16">
-    <h2 className="text-5xl font-extrabold bg-gradient-to-r from-gray-900 via-indigo-900 to-purple-900 bg-clip-text text-transparent mb-4">
+<div className="max-w-7xl w-full mt-10">
+  <div className="text-center mb-8">
+    <h2 className="text-3xl font-extrabold bg-gradient-to-r from-gray-900 via-indigo-900 to-purple-900 bg-clip-text text-transparent mb-2">
       Shop by{" "}
       <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
         Brand
       </span>
     </h2>
-    <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+    <p className="text-gray-600 text-sm max-w-2xl mx-auto">
       Explore your favorite brands
     </p>
   </div>
 
   {/* Centered Brand Logos */}
-  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-10 justify-center justify-items-center items-center max-w-5xl mx-auto">
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 justify-center justify-items-center items-center max-w-5xl mx-auto">
     {brands.map((brand) => (
       <div
         key={brand.name}
         className="cursor-pointer transform transition-all duration-700 hover:scale-110"
         onClick={() => navigate(`/products?brand=${brand.name}`)}
       >
-        <div className="w-32 h-32 p-4 bg-white rounded-2xl shadow-lg flex items-center justify-center hover:shadow-2xl transition-all duration-300">
+        <div className="w-20 h-20 p-2 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300">
           <img
             src={brand.logo}
             alt={brand.name}
-            className="h-16 object-contain"
+            className="h-12 object-contain"
           />
         </div>
-        <p className="text-center mt-2 font-semibold text-gray-700">
+        <p className="text-center mt-1 text-sm font-semibold text-gray-700">
           {brand.name}
         </p>
       </div>
@@ -137,31 +137,31 @@ const Home = () => {
 
       {/* Top Selling Products Section */}
       <div
-        className={`max-w-6xl w-full mt-20 transition-all duration-1000 transform ${
+        className={`max-w-6xl w-full mt-10 transition-all duration-1000 transform ${
           productsVisible
             ? "translate-y-0 opacity-100"
             : "translate-y-20 opacity-0"
         }`}
       >
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-black bg-gradient-to-r from-slate-800 via-gray-700 to-zinc-800 bg-clip-text text-transparent mb-4">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-black bg-gradient-to-r from-slate-800 via-gray-700 to-zinc-800 bg-clip-text text-transparent mb-2">
             Top{" "}
             <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
               Selling Products
             </span>
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 text-sm max-w-2xl mx-auto">
             Our most popular sneakers loved by customers
           </p>
         </div>
 
         {loadingTopProducts ? (
-          <p className="text-center text-gray-500">Loading top-selling products...</p>
+          <p className="text-center text-sm text-gray-500">Loading top-selling products...</p>
         ) : topProducts.length === 0 ? (
-          <p className="text-center text-gray-500">No top-selling products found.</p>
+          <p className="text-center text-sm text-gray-500">No top-selling products found.</p>
         ) : (
-          <div className="relative min-h-[600px] bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 rounded-3xl overflow-hidden shadow-2xl border border-white/10">
-            <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 p-12 h-full items-center">
+          <div className="relative min-h-[400px] bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 rounded-2xl overflow-hidden shadow-xl border border-white/10">
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 p-6 h-full items-center">
               {topProducts.map((product, index) => (
                 <div
                   key={product.id}
@@ -174,9 +174,9 @@ const Home = () => {
                   }}
                   onClick={() => navigate(`/products/${product.id}`)}
                 >
-                  <div className="relative bg-white/10 rounded-3xl p-8 border border-white/20 shadow-xl hover:shadow-2xl hover:bg-white/15 transition-all duration-500 overflow-hidden">
-                    <div className="relative mb-8">
-                      <div className="w-36 h-36 mx-auto rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-500 hover:scale-110 hover:-translate-y-3 animate-productBob border-4 border-white/20">
+                  <div className="relative bg-white/10 rounded-2xl p-4 border border-white/20 shadow-lg hover:shadow-xl hover:bg-white/15 transition-all duration-500 overflow-hidden">
+                    <div className="relative mb-4">
+                      <div className="w-24 h-24 mx-auto rounded-2xl overflow-hidden shadow-xl transform transition-all duration-500 hover:scale-110 hover:-translate-y-2 animate-productBob border-2 border-white/20">
                         <img
                           src={
                             product.image?.startsWith("http")
@@ -192,12 +192,12 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="text-center text-white">
-                      <h3 className="text-2xl font-bold mb-3">{product.name}</h3>
-                      <p className="text-white/70 text-sm mb-4">
+                      <h3 className="text-lg font-bold mb-2">{product.name}</h3>
+                      <p className="text-white/70 text-xs mb-2">
                         {product.brand || product.category}
                       </p>
-                      <div className="flex items-center justify-center space-x-3 mb-6">
-                        <span className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+                      <div className="flex items-center justify-center space-x-2 mb-3">
+                        <span className="text-xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
                           ₹{product.price}
                         </span>
                       </div>
@@ -206,7 +206,7 @@ const Home = () => {
                           e.stopPropagation();
                           navigate(`/products/${product.id}`);
                         }}
-                        className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full text-white font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105"
+                        className="px-4 py-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full text-white text-sm font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105"
                       >
                         View Details
                       </button>

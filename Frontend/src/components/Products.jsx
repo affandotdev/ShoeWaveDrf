@@ -69,17 +69,17 @@ const Products = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 flex items-center justify-center">
-        <div className="text-center space-y-6">
+        <div className="text-center space-y-3">
           <div className="relative">
-            <div className="w-32 h-32 border-8 border-violet-200 border-t-violet-600 rounded-full animate-spin mx-auto"></div>
-            <div className="absolute inset-0 w-32 h-32 border-8 border-transparent border-t-fuchsia-400 rounded-full animate-spin mx-auto"
+            <div className="w-16 h-16 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin mx-auto"></div>
+            <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-fuchsia-400 rounded-full animate-spin mx-auto"
               style={{ animationDirection: 'reverse', animationDuration: '2s' }}></div>
           </div>
-          <div className="space-y-3">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+          <div className="space-y-1">
+            <h2 className="text-xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
               Loading Products
             </h2>
-            <p className="text-gray-600">Discovering amazing products for you...</p>
+            <p className="text-sm text-gray-600">Discovering amazing products for you...</p>
           </div>
         </div>
       </div>
@@ -91,9 +91,9 @@ const Products = () => {
 
       <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-600 to-white-600">
         <div className="absolute inset-0 bg-black opacity-10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-8">
           <div className="text-center">
-            <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3 tracking-tight">
               <span className="block">Discover</span>
               <span className="block bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">
                 Amazing Products
@@ -112,14 +112,14 @@ const Products = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-6">
 
-        <div className="mb-12">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 border border-purple-100">
-            <div className="flex flex-col lg:flex-row gap-6 items-center">
+        <div className="mb-6">
+          <div className="bg-white rounded-2xl shadow-xl p-4 border border-purple-100">
+            <div className="flex flex-col lg:flex-row gap-3 items-center">
               <div className="flex-1 relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                   </svg>
                 </div>
@@ -128,7 +128,7 @@ const Products = () => {
                   placeholder="Search for amazing products..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl focus:border-violet-500 focus:ring-4 focus:ring-violet-100 transition-all duration-300 text-lg"
+                  className="w-full pl-10 pr-3 py-2 border-2 border-gray-200 rounded-xl focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-all duration-300 text-sm"
                 />
               </div>
 
@@ -136,7 +136,7 @@ const Products = () => {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="appearance-none bg-gradient-to-r from-violet-700 to-purple-400 text-black px-7 py-4 rounded-2xl font-semibold text-lg cursor-pointer hover:from-violet-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  className="appearance-none bg-gradient-to-r from-violet-700 to-purple-400 text-black px-4 py-2 rounded-xl font-semibold text-sm cursor-pointer hover:from-violet-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
                 >
                   <option value="all">All Categories</option>
                   <option value="Men">Men</option>
@@ -144,8 +144,8 @@ const Products = () => {
                   <option value="Unisex">Unisex</option>
                   <option value="Shoes">Shoes</option>
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </div>
@@ -153,11 +153,11 @@ const Products = () => {
             </div>
 
 
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="mt-3 pt-3 border-t border-gray-200">
+              <div className="flex flex-col sm:flex-row items-center gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-700 font-semibold text-lg">Price Range:</span>
-                  <span className="px-3 py-1 bg-gradient-to-r from-violet-100 to-purple-100 text-violet-700 rounded-full font-semibold">
+                  <span className="text-gray-700 font-semibold text-sm">Price Range:</span>
+                  <span className="px-2 py-0.5 bg-gradient-to-r from-violet-100 to-purple-100 text-violet-700 rounded-full text-xs font-semibold">
                     ₹{priceRange[0]} - ₹{priceRange[1]}
                   </span>
                 </div>
@@ -224,8 +224,8 @@ const Products = () => {
             </div>
 
 
-            <div className="mt-6 flex items-center justify-between text-gray-600">
-              <p className="text-lg">
+            <div className="mt-3 flex items-center justify-between text-gray-600">
+              <p className="text-sm">
                 Showing <span className="font-bold text-violet-600">{filteredProducts.length}</span> products
                 {searchTerm && (
                   <span> for "<span className="font-bold text-purple-600">{searchTerm}</span>"</span>
@@ -238,7 +238,7 @@ const Products = () => {
                     setCategory("all");
                     setPriceRange([0, 10000]);
                   }}
-                  className="text-gray-500 hover:text-red-500 transition-colors duration-300"
+                  className="text-sm text-gray-500 hover:text-red-500 transition-colors duration-300"
                 >
                   Clear all filters ✕
                 </button>
@@ -249,15 +249,15 @@ const Products = () => {
 
 
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-20">
+          <div className="text-center py-10">
             <div className="max-w-md mx-auto">
-              <div className="w-32 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-8">
-                <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">No Products Found</h3>
-              <p className="text-gray-600 mb-8">
+              <h3 className="text-xl font-bold text-gray-800 mb-2">No Products Found</h3>
+              <p className="text-sm text-gray-600 mb-4">
                 {searchTerm
                   ? `No products match "${searchTerm}". Try a different search term.`
                   : "No products available with current filters."
@@ -269,25 +269,25 @@ const Products = () => {
                   setCategory("all");
                   setPriceRange([0, 10000]);
                 }}
-                className="px-8 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-xl font-semibold hover:from-violet-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="px-4 py-2 bg-gradient-to-r from-violet-600 to-purple-600 text-white text-sm rounded-lg font-semibold hover:from-violet-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 View All Products
               </button>
             </div>
           </div>
         ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {currentProducts.map((product, index) => (
               <div
                 key={product.id}
-                className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-3 transition-all duration-500 overflow-hidden border border-purple-100"
+                className="group relative bg-white rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-2 transition-all duration-500 overflow-hidden border border-purple-100"
                 style={{
                   animationDelay: `${index * 100}ms`,
                   animation: 'fadeInUp 0.6s ease-out forwards'
                 }}
               >
 
-                <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 rounded-3xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
 
                 <div className="relative">
 
@@ -312,51 +312,51 @@ const Products = () => {
                         }
                       }
                     }}
-                    className={`absolute top-4 right-4 z-10 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 ${isInWishlist(product.id)
+                    className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-md transition-all duration-300 hover:scale-110 ${isInWishlist(product.id)
                       ? "bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-red-200"
                       : "bg-white/90 backdrop-blur-sm text-gray-700 hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 hover:text-white"
                       }`}
                   >
                     <Heart
-                      className={`w-5 h-5 transition-all duration-300 ${isInWishlist(product.id) ? "fill-current animate-pulse scale-110" : ""
+                      className={`w-4 h-4 transition-all duration-300 ${isInWishlist(product.id) ? "fill-current animate-pulse scale-110" : ""
                         }`}
                     />
                   </button>
 
 
                   <Link to={`/products/${product.id}`} className="block relative overflow-hidden">
-                    <div className="aspect-w-1 aspect-h-1 h-64 overflow-hidden">
+                    <div className="aspect-w-1 aspect-h-1 h-40 overflow-hidden bg-gray-50 flex items-center justify-center">
                       <img
                         src={getImageUrl(product.image)}
                         alt={product.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
 
 
-                    <div className="absolute bottom-4 left-4">
-                      <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-purple-700 text-sm font-semibold rounded-full border border-purple-200">
+                    <div className="absolute bottom-2 left-2">
+                      <span className="px-2 py-0.5 bg-white/90 backdrop-blur-sm text-purple-700 text-xs font-semibold rounded-full border border-purple-200">
                         {product.category}
                       </span>
                     </div>
                   </Link>
 
 
-                  <div className="p-6 space-y-4">
+                  <div className="p-3 space-y-2">
                     <Link to={`/products/${product.id}`}>
-                      <h3 className="text-xl font-bold text-gray-800 group-hover:text-violet-600 transition-colors duration-300 line-clamp-2">
+                      <h3 className="text-sm font-bold text-gray-800 group-hover:text-violet-600 transition-colors duration-300 line-clamp-2">
                         {product.name}
                       </h3>
                     </Link>
 
 
                     <div className="flex items-center justify-between">
-                      <div className="space-y-1">
-                        <div className="text-3xl font-extrabold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+                      <div className="space-y-0.5">
+                        <div className="text-lg font-extrabold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
                           ₹{product.price}
                         </div>
-                        <div className="text-sm text-gray-500">Free shipping</div>
+                        <div className="text-xs text-gray-500">Free shipping</div>
                       </div>
 
                       <button
@@ -376,20 +376,18 @@ const Products = () => {
                             });
                           }
                         }}
-                        className={`group/btn relative overflow-hidden px-1 py-2 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${isInCart(product.id)
+                        className={`group/btn relative overflow-hidden px-2 py-1 rounded-lg text-xs font-semibold transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg ${isInCart(product.id)
                           ? "bg-green-500 text-white"
                           : "bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-700 hover:to-purple-700"
                           }`}
                       >
-                        <span className="relative z-10 flex items-center gap-2 ">
+                        <span className="relative z-10 flex items-center gap-1">
                           {isInCart(product.id) ? (
-                            <span className="text-md">
-                              {/* <ScanFaceIcon/> */}
+                            <span>
                               In Cart
                             </span>
                           ) : (
-                            <span className="text-md">
-                             
+                            <span>
                               Add to Cart
                             </span>
                           )}
@@ -405,37 +403,37 @@ const Products = () => {
 
 
         {totalPages > 1 && (
-          <div className="mt-16">
-            <div className="bg-white rounded-3xl shadow-xl p-8 border border-purple-100">
-              <div className="flex flex-col items-center space-y-4">
-                <p className="text-gray-600">
+          <div className="mt-8">
+            <div className="bg-white rounded-2xl shadow-lg p-4 border border-purple-100">
+              <div className="flex flex-col items-center space-y-2">
+                <p className="text-sm text-gray-600">
                   Showing page <span className="font-bold text-violet-600">{currentPage}</span> of{" "}
                   <span className="font-bold text-purple-600">{totalPages}</span>
                 </p>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1">
 
                   <button
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
-                    className={`p-3 rounded-xl font-semibold transition-all duration-300 ${currentPage === 1
+                    className={`p-2 rounded-lg font-semibold transition-all duration-300 ${currentPage === 1
                       ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-700 hover:to-purple-700 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                      : "bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-700 hover:to-purple-700 transform hover:scale-105 shadow-md hover:shadow-lg"
                       }`}
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
                   </button>
 
 
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-1">
                     {Array.from({ length: totalPages }, (_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentPage(index + 1)}
-                        className={`w-12 h-12 rounded-xl font-bold transition-all duration-300 transform hover:scale-110 ${currentPage === index + 1
-                          ? "bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg scale-110"
+                        className={`w-8 h-8 rounded-lg text-sm font-bold transition-all duration-300 transform hover:scale-110 ${currentPage === index + 1
+                          ? "bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-md scale-110"
                           : "bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-violet-100 hover:to-purple-100 hover:text-violet-700"
                           }`}
                       >
@@ -448,12 +446,12 @@ const Products = () => {
                   <button
                     onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                     disabled={currentPage === totalPages}
-                    className={`p-3 rounded-xl font-semibold transition-all duration-300 ${currentPage === totalPages
+                    className={`p-2 rounded-lg font-semibold transition-all duration-300 ${currentPage === totalPages
                       ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-700 hover:to-purple-700 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                      : "bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-700 hover:to-purple-700 transform hover:scale-105 shadow-md hover:shadow-lg"
                       }`}
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                   </button>

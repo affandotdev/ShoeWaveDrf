@@ -75,8 +75,8 @@ class OrderSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Order
-        fields = ['id', 'user', 'total', 'address', 'status', 'date', 'items']
-        read_only_fields = ['user', 'date']
+        fields = ['id', 'user', 'total', 'address', 'status', 'date', 'items', 'cancelled_by_admin']
+        read_only_fields = ['user', 'date', 'cancelled_by_admin']
 
 
 

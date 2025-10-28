@@ -100,17 +100,17 @@ const Register = () => {
 
   return (
     <div className="register-container" style={{
-      maxWidth: '400px',
-      margin: '50px auto',
-      padding: '20px',
+      maxWidth: '350px',
+      margin: '30px auto',
+      padding: '15px',
       border: '1px solid #ddd',
-      borderRadius: '8px',
+      borderRadius: '6px',
       backgroundColor: '#f9f9f9'
     }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '10px', color: '#333' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '8px', color: '#333', fontSize: '22px' }}>
         Create Account
       </h2>
-      <p style={{ textAlign: 'center', color: '#666', marginBottom: '30px' }}>
+      <p style={{ textAlign: 'center', color: '#666', marginBottom: '20px', fontSize: '13px' }}>
         Join us today!
       </p>
 
@@ -120,10 +120,11 @@ const Register = () => {
           <div style={{
             backgroundColor: '#f8d7da',
             color: '#721c24',
-            padding: '10px',
+            padding: '8px',
             borderRadius: '4px',
-            marginBottom: '20px',
-            border: '1px solid #f5c6cb'
+            marginBottom: '15px',
+            border: '1px solid #f5c6cb',
+            fontSize: '13px'
           }}>
             ⚠️ {error}
           </div>
@@ -134,18 +135,19 @@ const Register = () => {
           <div style={{
             backgroundColor: '#d4edda',
             color: '#155724',
-            padding: '10px',
+            padding: '8px',
             borderRadius: '4px',
-            marginBottom: '20px',
-            border: '1px solid #c3e6cb'
+            marginBottom: '15px',
+            border: '1px solid #c3e6cb',
+            fontSize: '13px'
           }}>
             ✅ Registration successful! Redirecting to login...
           </div>
         )}
 
 
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+        <div style={{ marginBottom: '15px' }}>
+          <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', fontSize: '13px' }}>
             Full Name
           </label>
           <input
@@ -158,17 +160,17 @@ const Register = () => {
             disabled={loading}
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '8px',
               border: '1px solid #ddd',
               borderRadius: '4px',
-              fontSize: '16px'
+              fontSize: '14px'
             }}
           />
         </div>
 
        
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+        <div style={{ marginBottom: '15px' }}>
+          <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', fontSize: '13px' }}>
             Email Address
           </label>
           <input
@@ -181,17 +183,17 @@ const Register = () => {
             disabled={loading}
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '8px',
               border: '1px solid #ddd',
               borderRadius: '4px',
-              fontSize: '16px'
+              fontSize: '14px'
             }}
           />
         </div>
 
     
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+        <div style={{ marginBottom: '15px' }}>
+          <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', fontSize: '13px' }}>
             Password
           </label>
           <input
@@ -204,17 +206,17 @@ const Register = () => {
             disabled={loading}
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '8px',
               border: '1px solid #ddd',
               borderRadius: '4px',
-              fontSize: '16px'
+              fontSize: '14px'
             }}
           />
         </div>
 
        
-        <div style={{ marginBottom: '30px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', fontSize: '13px' }}>
             Confirm Password
           </label>
           <input
@@ -227,10 +229,10 @@ const Register = () => {
             disabled={loading}
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '8px',
               border: '1px solid #ddd',
               borderRadius: '4px',
-              fontSize: '16px'
+              fontSize: '14px'
             }}
           />
         </div>
@@ -241,12 +243,12 @@ const Register = () => {
           disabled={loading}
           style={{
             width: '100%',
-            padding: '12px',
+            padding: '10px',
             backgroundColor: loading ? '#ccc' : '#007bff',
             color: 'white',
             border: 'none',
             borderRadius: '4px',
-            fontSize: '16px',
+            fontSize: '14px',
             fontWeight: 'bold',
             cursor: loading ? 'not-allowed' : 'pointer'
           }}
@@ -256,7 +258,7 @@ const Register = () => {
       </form>
 
    
-      <p style={{ textAlign: 'center', marginTop: '20px', color: '#666' }}>
+      <p style={{ textAlign: 'center', marginTop: '15px', color: '#666', fontSize: '13px' }}>
         Already have an account?{' '}
         <Link 
           to="/login" 

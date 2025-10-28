@@ -44,14 +44,14 @@ const AdminOrders = () => {
   const handleChangeStatus = async (orderId, newStatus) => {
     try {
       // Send PATCH request to update only the 'status' field
-      await api.patch(`/admin/orders/${orderId}/`, {
+      const response = await api.patch(`/admin/orders/${orderId}/`, {
         status: newStatus,
       });
 
-      // Update local state to reflect the change in UI
+      // Update local state with the complete updated order from backend
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
-          order.id === orderId ? { ...order, status: newStatus } : order
+          order.id === orderId ? response.data : order
         )
       );
     } catch (error) {
