@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Wishlist, Order, User, PasswordResetToken
+from .models import Product, Wishlist, Order, User, PasswordResetToken, ContactMessage
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -76,3 +76,18 @@ class OrderAdmin(admin.ModelAdmin):
 admin.site.register(Order, OrderAdmin)
 
 
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'created_at', 'is_read', 'replied')
+    list_filter = ('is_read', 'replied', 'created_at')
+    search_fields = ('name', 'email', 'message')
+    readonly_fields = ('name', 'email', 'message', 'created_at')
+    list_editable = ('is_read', 'replied')
+    ordering = ('-created_at',)
+
+    def has_add_permission(self, request):
+        return False  # Contact messages come from users only
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser or request.user.role == 'admin'
+
+admin.site.register(ContactMessage, ContactMessageAdmin)

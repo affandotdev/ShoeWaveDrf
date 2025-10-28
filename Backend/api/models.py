@@ -124,4 +124,19 @@ class PasswordResetOTP(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def is_expired(self):
-        return timezone.now() > self.created_at + datetime.timedelta(minutes=10)    
+        return timezone.now() > self.created_at + datetime.timedelta(minutes=10)
+
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    replied = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Contact from {self.name} - {self.email}"    

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Product, CartItem, Order, OrderItem, Wishlist
+from .models import Product, CartItem, Order, OrderItem, Wishlist, ContactMessage
 from .models import Product
 from .models import Category
 
@@ -108,4 +108,8 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     new_password = serializers.CharField(min_length=6, write_only=True)
 
 
-    
+class ContactMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactMessage
+        fields = ['id', 'name', 'email', 'message', 'created_at', 'is_read', 'replied']
+        read_only_fields = ['created_at', 'is_read', 'replied']

@@ -5,6 +5,13 @@ import api from "../apicall/axios";
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Search and filter states
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [genderFilter, setGenderFilter] = useState("all");
+  const [brandFilter, setBrandFilter] = useState("all");
+  const [priceSort, setPriceSort] = useState("none"); // none, low-high, high-low
 
   useEffect(() => {
     fetchProducts();
@@ -33,6 +40,56 @@ const AdminProducts = () => {
     }
   };
 
+
+  const uniqueCategories = [...new Set(products.map(p => p.category))].filter(Boolean);
+  const uniqueBrands = [...new Set(products.map(p => p.brand))].filter(Boolean);
+  const uniqueGenders = [...new Set(products.map(p => p.gender))].filter(Boolean);
+
+
+  let filteredProducts = products.filter((product) => {
+
+    const searchLower = searchTerm.toLowerCase();
+    const searchMatch = 
+      product.name.toLowerCase().includes(searchLower) ||
+      product.brand?.toLowerCase().includes(searchLower) ||
+      product.category?.toLowerCase().includes(searchLower) ||
+      product.id.toString().includes(searchLower);
+
+    if (!searchMatch) return false;
+
+
+    if (categoryFilter !== "all" && product.category !== categoryFilter) {
+      return false;
+    }
+
+
+    if (genderFilter !== "all" && product.gender !== genderFilter) {
+      return false;
+    }
+
+
+    if (brandFilter !== "all" && product.brand !== brandFilter) {
+      return false;
+    }
+
+    return true;
+  });
+
+  // Price sorting
+  if (priceSort === "low-high") {
+    filteredProducts = [...filteredProducts].sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+  } else if (priceSort === "high-low") {
+    filteredProducts = [...filteredProducts].sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+  }
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setCategoryFilter("all");
+    setGenderFilter("all");
+    setBrandFilter("all");
+    setPriceSort("none");
+  };
+
   if (loading) return (
     <div className="flex justify-center items-center h-64">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -41,7 +98,7 @@ const AdminProducts = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Manage Products</h1>
         <Link
           to="/admin/add-product"
@@ -52,6 +109,109 @@ const AdminProducts = () => {
           </svg>
           Add New Product
         </Link>
+      </div>
+
+      {/* Search and Filter Section */}
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
+          {/* Search Input */}
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Search Products
+            </label>
+            <input
+              type="text"
+              placeholder="Search by name, brand, category..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          {/* Category Filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category
+            </label>
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Categories</option>
+              {uniqueCategories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Gender Filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Gender
+            </label>
+            <select
+              value={genderFilter}
+              onChange={(e) => setGenderFilter(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Genders</option>
+              {uniqueGenders.map(gender => (
+                <option key={gender} value={gender}>{gender}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Brand Filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Brand
+            </label>
+            <select
+              value={brandFilter}
+              onChange={(e) => setBrandFilter(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Brands</option>
+              {uniqueBrands.map(brand => (
+                <option key={brand} value={brand}>{brand}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center">
+          {/* Price Sort */}
+          <div className="w-48">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Sort by Price
+            </label>
+            <select
+              value={priceSort}
+              onChange={(e) => setPriceSort(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="none">No Sorting</option>
+              <option value="low-high">Price: Low to High</option>
+              <option value="high-low">Price: High to Low</option>
+            </select>
+          </div>
+
+          {/* Results and Clear */}
+          <div className="flex items-center gap-4">
+            <p className="text-sm text-gray-600">
+              Showing {filteredProducts.length} of {products.length} products
+            </p>
+            {(searchTerm || categoryFilter !== "all" || genderFilter !== "all" || brandFilter !== "all" || priceSort !== "none") && (
+              <button
+                onClick={clearFilters}
+                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+              >
+                Clear All Filters
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="bg-white shadow-xl rounded-lg overflow-hidden">
@@ -67,7 +227,7 @@ const AdminProducts = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {products.map((p) => (
+              {filteredProducts.map((p) => (
                 <tr key={p.id} className="hover:bg-gray-50 transition-colors duration-150">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{p.id}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -109,7 +269,7 @@ const AdminProducts = () => {
         </div>
       </div>
 
-      {products.length === 0 && !loading && (
+      {filteredProducts.length === 0 && !loading && (
         <div className="mt-8 text-center py-12 bg-gray-50 rounded-lg">
           <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />

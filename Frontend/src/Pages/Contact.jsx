@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "../apicall/axios";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -8,22 +9,35 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-  
-    toast.success("✅ Thank you for contacting us! We’ll get back to you soon.", {
-      position: "top-center",
-      autoClose: 3000,
-    });
+    try {
+      const response = await api.post("/contact/", formData);
+      
+      toast.success(response.data.message || "✅ Thank you for contacting us! We'll get back to you soon.", {
+        position: "top-center",
+        autoClose: 4000,
+      });
 
-   
-    setFormData({ name: "", email: "", message: "" });
+      // Reset form
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      toast.error("❌ Failed to send message. Please try again later.", {
+        position: "top-center",
+        autoClose: 4000,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -90,9 +104,14 @@ const Contact = () => {
           
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition duration-300"
+              disabled={loading}
+              className={`w-full py-3 rounded-xl font-semibold transition duration-300 ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 text-white hover:bg-blue-700"
+              }`}
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>

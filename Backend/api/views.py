@@ -21,10 +21,10 @@ from .serializers import ProductSerializer
 from .models import Category
 from .serializers import CategorySerializer
 
-from .models import Product, CartItem, Order, OrderItem, Wishlist
+from .models import Product, CartItem, Order, OrderItem, Wishlist, ContactMessage
 from .serializers import (
     ProductSerializer, CartItemSerializer, WishlistSerializer,
-    OrderSerializer, UserSerializer,
+    OrderSerializer, UserSerializer, ContactMessageSerializer,
 )
 
 User = get_user_model()
@@ -420,5 +420,45 @@ class RazorpayVerifyPaymentView(generics.GenericAPIView):
         except razorpay.errors.SignatureVerificationError:
             return Response({"verified": False, "detail": "Signature verification failed"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({"verified": False, "detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)        
-        
+            return Response({"verified": False, "detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class ContactMessageView(generics.CreateAPIView):
+
+    serializer_class = ContactMessageSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        contact_message = serializer.save()
+
+        # Send email notification to admin
+        try:
+            send_mail(
+                subject=f"New Contact Message from {contact_message.name}",
+                message=f"Name: {contact_message.name}\nEmail: {contact_message.email}\n\nMessage:\n{contact_message.message}",
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[settings.EMAIL_HOST_USER],  # Send to yourself
+                fail_silently=False,
+            )
+        except Exception as e:
+            # Log the error but don't fail the request
+            print(f"Failed to send email notification: {e}")
+
+        return Response(
+            {"message": "Thank you for contacting us! We'll get back to you soon."},
+            status=status.HTTP_201_CREATED
+        )
+
+
+
+class AdminContactMessageViewSet(viewsets.ModelViewSet):
+
+    queryset = ContactMessage.objects.all()
+    serializer_class = ContactMessageSerializer
+    permission_classes = [IsAuthenticated, IsAdminOnly]
+
+    def get_queryset(self):
+        return ContactMessage.objects.all().order_by('-created_at')

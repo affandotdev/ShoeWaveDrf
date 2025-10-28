@@ -8,7 +8,7 @@ from .views import (
     RazorpayCreateOrderView, RazorpayVerifyPaymentView,
     AdminOrderViewSet, AdminAnalyticsView,
     PasswordResetRequestOTPView, PasswordResetVerifyOTPView,ProductListCreateView, ProductDetailView, BlockAdminAPIView,TopSellingProductsView,
-    CategoryListView
+    CategoryListView, ContactMessageView, AdminContactMessageViewSet
 )
 
 router = DefaultRouter()
@@ -18,6 +18,7 @@ router.register(r'wishlist', WishlistViewSet, basename='wishlist')
 router.register(r'orders', OrderViewSet,basename='order')
 router.register(r'admin/users', AdminUserViewSet, basename='admin-users')
 router.register(r'admin/orders', AdminOrderViewSet, basename='admin-orders')
+router.register(r'admin/contact-messages', AdminContactMessageViewSet, basename='admin-contact-messages')
 router.register(r'users', UserViewSet, basename='user')
 
 
@@ -41,4 +42,5 @@ urlpatterns = [
     path('password-reset/verify-otp/', PasswordResetVerifyOTPView.as_view(), name='password-reset-verify-otp'),
     path('admins/block/<int:id>/', BlockAdminAPIView.as_view(), name='block-admin'),
     path('categories/', CategoryListView.as_view(), name='categories-list'),
+    path('contact/', ContactMessageView.as_view(), name='contact-message'),
 ]

@@ -30,6 +30,7 @@ import AdminEditProduct from "./Admin/AdminEditProduct";
 import AdminUsers from "./Admin/AdminUsers";
 import AdminUserDetails from "./Admin/AdminUserDetails";
 import AdminOrders from "./Admin/AdminOrders";
+import AdminContactMessages from "./Admin/AdminContactMessages";
 
 
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
@@ -130,6 +131,7 @@ function App() {
           <Route path="users" element={<AdminUsers />} />
           <Route path="user/:id" element={<AdminUserDetails />} />
           <Route path="orders" element={<AdminOrders />} />
+          <Route path="contact-messages" element={<AdminContactMessages />} />
 
         </Route>
       </Routes>

@@ -8,7 +8,8 @@ import {
   MdPeople,
   MdAssignment,
   MdPerson,
-  MdLogout
+  MdLogout,
+  MdEmail
 } from "react-icons/md";
 
 const AdminLayout = () => {
@@ -20,7 +21,8 @@ const AdminLayout = () => {
     { path: "/admin/dashboard", label: "Dashboard", icon: <MdDashboard /> },
     { path: "/admin/products", label: "Products", icon: <MdShoppingCart /> },
     { path: "/admin/users", label: "Users", icon: <MdPeople /> },
-    { path: "/admin/orders", label: "Orders", icon: <MdAssignment /> }
+    { path: "/admin/orders", label: "Orders", icon: <MdAssignment /> },
+    { path: "/admin/contact-messages", label: "Messages", icon: <MdEmail /> }
   ];
 
   const handleLogout = () => {

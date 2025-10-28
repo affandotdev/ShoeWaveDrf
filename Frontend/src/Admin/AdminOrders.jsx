@@ -8,6 +8,11 @@ const AdminOrders = () => {
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Search and filter states
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState("all"); // all, today, week, month
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -54,6 +59,52 @@ const AdminOrders = () => {
     }
   };
 
+  // Filter and search logic
+  const filteredOrders = orders.filter((order) => {
+    // Search filter
+    const userName = getUserName(order.user).toLowerCase();
+    const orderId = order.id.toString();
+    const searchMatch = 
+      userName.includes(searchTerm.toLowerCase()) ||
+      orderId.includes(searchTerm);
+
+    if (!searchMatch) return false;
+
+    // Status filter
+    if (statusFilter !== "all" && order.status !== statusFilter) {
+      return false;
+    }
+
+    // Date filter
+    if (dateFilter !== "all") {
+      const orderDate = new Date(order.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (dateFilter === "today") {
+        const orderDateOnly = new Date(orderDate);
+        orderDateOnly.setHours(0, 0, 0, 0);
+        if (orderDateOnly.getTime() !== today.getTime()) return false;
+      } else if (dateFilter === "week") {
+        const weekAgo = new Date(today);
+        weekAgo.setDate(weekAgo.getDate() - 7);
+        if (orderDate < weekAgo) return false;
+      } else if (dateFilter === "month") {
+        const monthAgo = new Date(today);
+        monthAgo.setMonth(monthAgo.getMonth() - 1);
+        if (orderDate < monthAgo) return false;
+      }
+    }
+
+    return true;
+  });
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setStatusFilter("all");
+    setDateFilter("all");
+  };
+
 
   if (loading)
     return (
@@ -64,14 +115,80 @@ const AdminOrders = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">All Orders</h1>
         <div className="text-sm text-gray-500">
-          Showing {orders.length} order{orders.length !== 1 ? "s" : ""}
+          Showing {filteredOrders.length} of {orders.length} order{orders.length !== 1 ? "s" : ""}
         </div>
       </div>
 
-      {orders.length === 0 ? (
+      {/* Search and Filter Section */}
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {/* Search Input */}
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Search Orders
+            </label>
+            <input
+              type="text"
+              placeholder="Search by Order ID or User name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          {/* Status Filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Status
+            </label>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Shipping">Shipping</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+
+          {/* Date Filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Date Range
+            </label>
+            <select
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Time</option>
+              <option value="today">Today</option>
+              <option value="week">Last 7 Days</option>
+              <option value="month">Last 30 Days</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Clear Filters Button */}
+        {(searchTerm || statusFilter !== "all" || dateFilter !== "all") && (
+          <div className="mt-4">
+            <button
+              onClick={clearFilters}
+              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+            >
+              Clear All Filters
+            </button>
+          </div>
+        )}
+      </div>
+
+      {filteredOrders.length === 0 ? (
         <div className="bg-white rounded-lg shadow-sm p-8 text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +235,7 @@ const AdminOrders = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {orders.map((order) => (
+                {filteredOrders.map((order) => (
                   <tr
                     key={order.id}
                     className="hover:bg-gray-50 transition-colors duration-150"

@@ -160,9 +160,10 @@ const AdminDashboard = () => {
         </div>
 
    
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Link className="bg-indigo-600 text-white p-6 text-center rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-colors duration-300 shadow-md hover:shadow-lg" to="/admin/products">Manage Products</Link>
           <Link className="bg-emerald-600 text-white p-6 text-center rounded-lg font-semibold text-lg hover:bg-emerald-700 transition-colors duration-300 shadow-md hover:shadow-lg" to="/admin/users">Manage Users</Link>
+          <Link className="bg-blue-600 text-white p-6 text-center rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors duration-300 shadow-md hover:shadow-lg" to="/admin/contact-messages">📧 View Messages</Link>
         </div>
       </div>
     </div>

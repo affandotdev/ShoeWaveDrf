@@ -178,3 +178,5 @@ EMAIL_TIMEOUT = 10
 # Frontend URL for password reset links
 FRONTEND_URL = 'http://localhost:5173'
 
+
+
