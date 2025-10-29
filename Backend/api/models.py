@@ -80,7 +80,7 @@ class Order(models.Model):
     address = models.CharField(max_length=255)
     status = models.CharField(max_length=50, default="Pending")
     date = models.DateTimeField(auto_now_add=True)
-    cancelled_by_admin = models.BooleanField(default=False)  # Track if admin cancelled the order
+    cancelled_by_admin = models.BooleanField(default=False)  
     
     class Meta:
         ordering = ['-date']

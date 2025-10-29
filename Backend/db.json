@@ -1,0 +1,1345 @@
+[
+{
+  "model": "api.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$Qcm1fdj4U5271kSX1rH4UG$+mlhp0LrUVdsb4tp2Wc35LlhGHnaHKmy/V/L9t/7jbQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "affantest",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-20T04:25:09.557Z",
+    "email": "test@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 14,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$9hpDsYp09ag8g9LPgVMkfr$KwgmYDcvBnCLBkuDZ6xw63wKBrtZgLuIUkhWjHu6UqY=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "demo",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-22T10:17:56.009Z",
+    "email": "demo@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 17,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$d9xKqkgaNnwizPHAo8X8J9$FIu8r4dLlEKZNl9U6hE/HAps03Ye/8zIWzLJh5rzfrw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "asifwayanad",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-23T05:06:10.563Z",
+    "email": "asifmhmd20@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 18,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$oq08mynbpIVm8COOFDJS1p$yapzxS+mqbfXfFVKJtQQ644wzPaMaezk8yRmqhfX2xU=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "nishadk",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-23T05:07:24.401Z",
+    "email": "nishadsha888@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 19,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$9fjFbDQ81kSI7GH6Enm0KW$NBOSO3AgxuFR/aovgTDwRmGIoYEkioZpy+bX5kuIQf0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "demoac",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-23T05:10:54.226Z",
+    "email": "claudeafk321@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 21,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$eHLaMBqdwBy2vG81Odzvqx$lzm2YanNX8Lb/CLVmX7Q/U/TAGjAxf61yB7XuJ+SM2s=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "marva",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-23T06:06:54.793Z",
+    "email": "ktmarwa51@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 22,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$ST9shdmYCmzvkkTsoyBnAh$MlUCyoENkBOMUwyxZPY5Vjrwk1zbPiphzP7iNAbBhp8=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "review",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-23T09:05:48.454Z",
+    "email": "review@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 24,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$JwGfcfwxGKhN3WcbJb2aLX$qQqCAm1wI9uEedynbeouHNHFVmqLVIYNx8hMuclvbGQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "affandemo",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-23T13:41:03Z",
+    "email": "affuafk123@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 25,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$8WfEDzP4ogTxMekPJ1dHSS$DN8+8MvAa+otenKXXxlscVG6cxY4c/BQcFpzyxG3rDA=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "backend",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-23T13:45:52.540Z",
+    "email": "backend@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 26,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$w9eYjPifMyxz2cS87IsAEZ$qmVKUlf/R5M2xgDnSrg8HHDSrqSIB4b2LTGPlchmeqU=",
+    "last_login": "2025-10-28T04:31:34Z",
+    "is_superuser": false,
+    "username": "secondweek",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-28T04:12:42Z",
+    "email": "secondweek@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 27,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$bGNcDFGoKYgqF0vm1VxWkX$yVresP89cgtooGym/snwyy7LS+tCM5bLTI+Ozp7WcFg=",
+    "last_login": "2025-10-28T04:33:03.199Z",
+    "is_superuser": true,
+    "username": "affan",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-10-28T04:23:05.103Z",
+    "email": "affan@gmail.com",
+    "role": "admin",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 29,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$EPKSvIRPi6GH7f15hOsEE7$CIfw0To9sFPWd7ntgLRBuHbzNpzcNC8I2rZfUO9wyz0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "check",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-28T08:14:23Z",
+    "email": "check@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 30,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$cYVNO4o5rLnnKCjrmRPzgb$T5PE6DMIQUwb0lE3sOGe+utrAn0hTuS2TCdT7iYi90k=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "fiyanoushin",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-28T09:20:40.070Z",
+    "email": "fathimafiyanoushin@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": 32,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$12nvq4jDBrBhtjSevHyRcK$Xcq++mI8kGpH1KC7NULd6xgfd+t8ZYZZHWS0Jj/wOEE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "afnan",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-10-28T16:33:36.578Z",
+    "email": "afnan@gmail.com",
+    "role": "user",
+    "status": "active",
+    "blocked": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.product",
+  "pk": 1,
+  "fields": {
+    "name": "Air Max 90",
+    "brand": "NIKE",
+    "gender": "Men",
+    "category": "RUNNING",
+    "price": "3998.98",
+    "image": "product_images/product_1.jpeg",
+    "description": "Nike product"
+  }
+},
+{
+  "model": "api.product",
+  "pk": 2,
+  "fields": {
+    "name": "Ultraboost 5",
+    "brand": "ADIDAS",
+    "gender": "MEN",
+    "category": "RUNNING",
+    "price": "6999.00",
+    "image": "product_images/product_2.jpeg",
+    "description": "Adida brand"
+  }
+},
+{
+  "model": "api.product",
+  "pk": 3,
+  "fields": {
+    "name": "Gel-Kayano 30",
+    "brand": "ASICS",
+    "gender": "WOMEN",
+    "category": "RUNNING",
+    "price": "4599.00",
+    "image": "product_images/product_3.jpeg",
+    "description": "Women Running shoe"
+  }
+},
+{
+  "model": "api.product",
+  "pk": 4,
+  "fields": {
+    "name": "Classic Leather",
+    "brand": "REEBOK",
+    "gender": "UNISEX",
+    "category": "CASUAL",
+    "price": "1999.00",
+    "image": "product_images/classic_leather.jpg",
+    "description": "Unisex Reebok shoe"
+  }
+},
+{
+  "model": "api.product",
+  "pk": 7,
+  "fields": {
+    "name": "Chuck Taylor All Star",
+    "brand": "CONVERSE",
+    "gender": "Unisex",
+    "category": "CASUAL",
+    "price": "2999.97",
+    "image": "product_images/product_5_wUQ1DW4.jpeg",
+    "description": "The Converse Chuck Taylor All Star, originally designed as a basketball shoe in 1917"
+  }
+},
+{
+  "model": "api.product",
+  "pk": 8,
+  "fields": {
+    "name": "Delsie Stella",
+    "brand": "CLARKS",
+    "gender": "Women",
+    "category": "FORMAL",
+    "price": "2999.00",
+    "image": "product_images/product_6.jpeg",
+    "description": "The Clarks Delsie Stella, part of the Clarks Artisan collection, is a stylish and comfortable women’s ankle bootie designed for versatility, blending modern elegance with all-day wearability. Introduced as a fashionable yet practical option"
+  }
+},
+{
+  "model": "api.product",
+  "pk": 9,
+  "fields": {
+    "name": "Edell",
+    "brand": "BANDOLINO",
+    "gender": "Women",
+    "category": "FORMAL",
+    "price": "2998.96",
+    "image": "product_images/product__7.jpeg",
+    "description": "Women Fomral wear"
+  }
+},
+{
+  "model": "api.product",
+  "pk": 10,
+  "fields": {
+    "name": "Haven",
+    "brand": "AEROSOLES",
+    "gender": "Women",
+    "category": "CASUAL",
+    "price": "2998.98",
+    "image": "product_images/product_8.jpeg",
+    "description": "The Aerosoles Haven is a women’s casual shoe designed for comfort and style, featuring a versatile design that can be dressed up or down, making it suitable for various occasions."
+  }
+},
+{
+  "model": "api.product",
+  "pk": 11,
+  "fields": {
+    "name": "Jessica Bohemia Slide",
+    "brand": "FRYE",
+    "gender": "Women",
+    "category": "CASUAL",
+    "price": "1298.98",
+    "image": "product_images/product_9.jpeg",
+    "description": "The Frye Jessica Bohemia Slide is a stylish and comfortable women’s slide sandal, known for its premium leather construction and bohemian-inspired design."
+  }
+},
+{
+  "model": "api.product",
+  "pk": 12,
+  "fields": {
+    "name": "Estee",
+    "brand": "TROTTERS",
+    "gender": "Women",
+    "category": "FORMAL",
+    "price": "1198.99",
+    "image": "product_images/product_10.jpeg",
+    "description": "The Trotters Estee is a women’s formal shoe designed for elegance and comfort, featuring a sleek silhouette and high-quality materials."
+  }
+},
+{
+  "model": "api.product",
+  "pk": 13,
+  "fields": {
+    "name": "Simone",
+    "brand": "WANTED",
+    "gender": "Women",
+    "category": "CASUAL",
+    "price": "3999.00",
+    "image": "product_images/product_11.jpeg",
+    "description": "The Wanted Simone is a women’s casual shoe known for its trendy design and affordability, making it a popular choice for everyday wear."
+  }
+},
+{
+  "model": "api.product",
+  "pk": 14,
+  "fields": {
+    "name": "Joyride Dual Run",
+    "brand": "NIKE",
+    "gender": "Unisex",
+    "category": "RUNNING",
+    "price": "999.00",
+    "image": "product_images/product_12.jpeg",
+    "description": "Unisex fashion Wear"
+  }
+},
+{
+  "model": "api.product",
+  "pk": 15,
+  "fields": {
+    "name": "Renew Run",
+    "brand": "NIKE",
+    "gender": "Unisex",
+    "category": "RUNNING",
+    "price": "2898.97",
+    "image": "product_images/product_13.jpeg",
+    "description": "The Nike Renew Run is a kids' running shoe designed for comfort and support, featuring a lightweight mesh upper, cushioned midsole, and durable outsole."
+  }
+},
+{
+  "model": "api.product",
+  "pk": 16,
+  "fields": {
+    "name": "Bridgport Advice",
+    "brand": "HUSHPUPPIES",
+    "gender": "Men",
+    "category": "FORMAL",
+    "price": "2998.99",
+    "image": "product_images/product_14.jpeg",
+    "description": "The Hush Puppies Bridgport Advice is a men’s formal shoe known for its classic design and comfort, featuring premium leather construction and a cushioned insole. It’s ideal for professional settings or formal occasions, offering a blend of style and support with its sleek silhouette."
+  }
+},
+{
+  "model": "api.cartitem",
+  "pk": 128,
+  "fields": {
+    "user": 24,
+    "product": 15,
+    "quantity": 8
+  }
+},
+{
+  "model": "api.order",
+  "pk": 8,
+  "fields": {
+    "user": 14,
+    "total": "300.00",
+    "address": "okmnbvcdsw",
+    "status": "Delivered",
+    "date": "2025-10-22T11:21:41.451Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 9,
+  "fields": {
+    "user": 14,
+    "total": "535.00",
+    "address": "wdasczx",
+    "status": "Delivered",
+    "date": "2025-10-22T11:40:07.081Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 10,
+  "fields": {
+    "user": 14,
+    "total": "535.00",
+    "address": "wads",
+    "status": "Delivered",
+    "date": "2025-10-22T11:40:15.931Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 20,
+  "fields": {
+    "user": 21,
+    "total": "120.00",
+    "address": "fgjgfgh",
+    "status": "Shipping",
+    "date": "2025-10-23T06:08:40.746Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 25,
+  "fields": {
+    "user": 25,
+    "total": "11297.00",
+    "address": "qwsdfgbnm",
+    "status": "Cancelled",
+    "date": "2025-10-23T13:46:33.822Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 26,
+  "fields": {
+    "user": 25,
+    "total": "33987.60",
+    "address": "wdas",
+    "status": "Delivered",
+    "date": "2025-10-23T14:37:43.867Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 27,
+  "fields": {
+    "user": 25,
+    "total": "26592.98",
+    "address": "okokk",
+    "status": "Delivered",
+    "date": "2025-10-23T15:51:29.107Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 28,
+  "fields": {
+    "user": 24,
+    "total": "4599.00",
+    "address": "efef",
+    "status": "Delivered",
+    "date": "2025-10-24T04:22:55.704Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 29,
+  "fields": {
+    "user": 24,
+    "total": "16695.97",
+    "address": "rftgh",
+    "status": "Delivered",
+    "date": "2025-10-24T05:14:58.684Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 30,
+  "fields": {
+    "user": 25,
+    "total": "31193.96",
+    "address": "qwerftghjkm",
+    "status": "Delivered",
+    "date": "2025-10-28T04:07:18.708Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 31,
+  "fields": {
+    "user": 26,
+    "total": "49174.47",
+    "address": "qwdfgbnm",
+    "status": "Cancelled",
+    "date": "2025-10-28T04:13:44.553Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 32,
+  "fields": {
+    "user": 27,
+    "total": "2898.97",
+    "address": "wsdc",
+    "status": "Shipping",
+    "date": "2025-10-28T04:25:28.936Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 33,
+  "fields": {
+    "user": 26,
+    "total": "999.00",
+    "address": "ahiaknk",
+    "status": "Delivered",
+    "date": "2025-10-28T04:38:08.567Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 34,
+  "fields": {
+    "user": 26,
+    "total": "14985.00",
+    "address": "qwdfgnm",
+    "status": "Cancelled",
+    "date": "2025-10-28T04:56:47.868Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 35,
+  "fields": {
+    "user": 26,
+    "total": "4599.00",
+    "address": "fytghj",
+    "status": "Cancelled",
+    "date": "2025-10-28T05:14:36.406Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 36,
+  "fields": {
+    "user": 26,
+    "total": "2998.96",
+    "address": "ok",
+    "status": "Cancelled",
+    "date": "2025-10-28T09:00:05.541Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 37,
+  "fields": {
+    "user": 30,
+    "total": "29989.80",
+    "address": "oiuhgv",
+    "status": "Cancelled",
+    "date": "2025-10-28T09:21:57.864Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 38,
+  "fields": {
+    "user": 30,
+    "total": "2999.97",
+    "address": "okoj",
+    "status": "Cancelled",
+    "date": "2025-10-28T09:22:22.659Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 39,
+  "fields": {
+    "user": 30,
+    "total": "34770.71",
+    "address": "pkokko",
+    "status": "Cancelled",
+    "date": "2025-10-28T09:22:57.430Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 40,
+  "fields": {
+    "user": 26,
+    "total": "4599.00",
+    "address": "wqsa",
+    "status": "Cancelled",
+    "date": "2025-10-28T09:35:56.029Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 41,
+  "fields": {
+    "user": 26,
+    "total": "6598.00",
+    "address": "okokk",
+    "status": "Cancelled",
+    "date": "2025-10-28T10:47:23.786Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 42,
+  "fields": {
+    "user": 26,
+    "total": "112570.48",
+    "address": "asdfghjkl",
+    "status": "Cancelled",
+    "date": "2025-10-28T16:28:45.261Z",
+    "cancelled_by_admin": true
+  }
+},
+{
+  "model": "api.order",
+  "pk": 43,
+  "fields": {
+    "user": 32,
+    "total": "2999.00",
+    "address": "qwerty",
+    "status": "Cancelled",
+    "date": "2025-10-28T16:33:57.608Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 44,
+  "fields": {
+    "user": 32,
+    "total": "2998.98",
+    "address": "qwsdfghnm",
+    "status": "Cancelled",
+    "date": "2025-10-28T16:46:16.635Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 45,
+  "fields": {
+    "user": 32,
+    "total": "4599.00",
+    "address": "okokkk",
+    "status": "Cancelled",
+    "date": "2025-10-28T16:49:45.149Z",
+    "cancelled_by_admin": true
+  }
+},
+{
+  "model": "api.order",
+  "pk": 46,
+  "fields": {
+    "user": 32,
+    "total": "2999.00",
+    "address": "pl",
+    "status": "Cancelled",
+    "date": "2025-10-28T16:50:49.754Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.order",
+  "pk": 47,
+  "fields": {
+    "user": 26,
+    "total": "2998.99",
+    "address": "okok",
+    "status": "Pending",
+    "date": "2025-10-29T07:12:59.457Z",
+    "cancelled_by_admin": false
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 22,
+  "fields": {
+    "order": 8,
+    "product": 1,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 23,
+  "fields": {
+    "order": 8,
+    "product": 2,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 24,
+  "fields": {
+    "order": 9,
+    "product": 4,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 25,
+  "fields": {
+    "order": 9,
+    "product": 3,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 26,
+  "fields": {
+    "order": 9,
+    "product": 2,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 27,
+  "fields": {
+    "order": 9,
+    "product": 1,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 47,
+  "fields": {
+    "order": 20,
+    "product": 1,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 53,
+  "fields": {
+    "order": 25,
+    "product": 2,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 54,
+  "fields": {
+    "order": 25,
+    "product": 9,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 55,
+  "fields": {
+    "order": 25,
+    "product": 8,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 56,
+  "fields": {
+    "order": 26,
+    "product": 4,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 57,
+  "fields": {
+    "order": 26,
+    "product": 4,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 58,
+  "fields": {
+    "order": 26,
+    "product": 9,
+    "quantity": 10
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 59,
+  "fields": {
+    "order": 27,
+    "product": 8,
+    "quantity": 3
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 60,
+  "fields": {
+    "order": 27,
+    "product": 2,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 61,
+  "fields": {
+    "order": 27,
+    "product": 3,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 62,
+  "fields": {
+    "order": 27,
+    "product": 4,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 63,
+  "fields": {
+    "order": 27,
+    "product": 1,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 64,
+  "fields": {
+    "order": 28,
+    "product": 3,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 65,
+  "fields": {
+    "order": 29,
+    "product": 15,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 66,
+  "fields": {
+    "order": 29,
+    "product": 3,
+    "quantity": 3
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 67,
+  "fields": {
+    "order": 30,
+    "product": 3,
+    "quantity": 2
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 68,
+  "fields": {
+    "order": 30,
+    "product": 2,
+    "quantity": 2
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 69,
+  "fields": {
+    "order": 30,
+    "product": 1,
+    "quantity": 2
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 70,
+  "fields": {
+    "order": 31,
+    "product": 12,
+    "quantity": 4
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 71,
+  "fields": {
+    "order": 31,
+    "product": 13,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 72,
+  "fields": {
+    "order": 31,
+    "product": 11,
+    "quantity": 11
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 73,
+  "fields": {
+    "order": 31,
+    "product": 15,
+    "quantity": 9
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 74,
+  "fields": {
+    "order": 32,
+    "product": 15,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 75,
+  "fields": {
+    "order": 33,
+    "product": 14,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 76,
+  "fields": {
+    "order": 34,
+    "product": 14,
+    "quantity": 15
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 77,
+  "fields": {
+    "order": 35,
+    "product": 3,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 78,
+  "fields": {
+    "order": 36,
+    "product": 9,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 79,
+  "fields": {
+    "order": 37,
+    "product": 10,
+    "quantity": 10
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 80,
+  "fields": {
+    "order": 38,
+    "product": 7,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 81,
+  "fields": {
+    "order": 39,
+    "product": 12,
+    "quantity": 29
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 82,
+  "fields": {
+    "order": 40,
+    "product": 3,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 83,
+  "fields": {
+    "order": 41,
+    "product": 4,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 84,
+  "fields": {
+    "order": 41,
+    "product": 3,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 85,
+  "fields": {
+    "order": 42,
+    "product": 8,
+    "quantity": 3
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 86,
+  "fields": {
+    "order": 42,
+    "product": 9,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 87,
+  "fields": {
+    "order": 42,
+    "product": 1,
+    "quantity": 24
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 88,
+  "fields": {
+    "order": 42,
+    "product": 3,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 89,
+  "fields": {
+    "order": 43,
+    "product": 8,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 90,
+  "fields": {
+    "order": 44,
+    "product": 10,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 91,
+  "fields": {
+    "order": 45,
+    "product": 3,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 92,
+  "fields": {
+    "order": 46,
+    "product": 8,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.orderitem",
+  "pk": 93,
+  "fields": {
+    "order": 47,
+    "product": 16,
+    "quantity": 1
+  }
+},
+{
+  "model": "api.passwordresetotp",
+  "pk": 12,
+  "fields": {
+    "user": 17,
+    "otp": "392177",
+    "created_at": "2025-10-23T06:36:36.986Z"
+  }
+},
+{
+  "model": "api.passwordresetotp",
+  "pk": 13,
+  "fields": {
+    "user": 17,
+    "otp": "628180",
+    "created_at": "2025-10-23T06:36:42.091Z"
+  }
+},
+{
+  "model": "api.contactmessage",
+  "pk": 2,
+  "fields": {
+    "name": "asifwayanad",
+    "email": "asifmhmd20@gmail.com",
+    "message": "done",
+    "created_at": "2025-10-28T08:05:43.633Z",
+    "is_read": false,
+    "replied": false
+  }
+},
+{
+  "model": "api.contactmessage",
+  "pk": 3,
+  "fields": {
+    "name": "affan k",
+    "email": "review@gmail.com",
+    "message": "i wanna contact with you",
+    "created_at": "2025-10-28T08:06:21.941Z",
+    "is_read": false,
+    "replied": false
+  }
+},
+{
+  "model": "api.contactmessage",
+  "pk": 4,
+  "fields": {
+    "name": "checking",
+    "email": "check@gmail.com",
+    "message": "checking email",
+    "created_at": "2025-10-28T08:15:12.530Z",
+    "is_read": false,
+    "replied": false
+  }
+},
+{
+  "model": "api.contactmessage",
+  "pk": 5,
+  "fields": {
+    "name": "fiya",
+    "email": "fathimafiyanoushin@gmail.com",
+    "message": "hi am fiya",
+    "created_at": "2025-10-28T09:01:23.143Z",
+    "is_read": false,
+    "replied": false
+  }
+},
+{
+  "model": "api.contactmessage",
+  "pk": 6,
+  "fields": {
+    "name": "wsqa",
+    "email": "secondweek@gmail.com",
+    "message": "wqsdfvc",
+    "created_at": "2025-10-28T09:11:16.064Z",
+    "is_read": false,
+    "replied": false
+  }
+},
+{
+  "model": "api.contactmessage",
+  "pk": 7,
+  "fields": {
+    "name": "wsqa",
+    "email": "secondweek@gmail.com",
+    "message": "wqsaxz",
+    "created_at": "2025-10-28T09:13:10.815Z",
+    "is_read": false,
+    "replied": false
+  }
+},
+{
+  "model": "api.contactmessage",
+  "pk": 8,
+  "fields": {
+    "name": "fathima fiya noushin",
+    "email": "fathimafiyanoushin@gmail.com",
+    "message": "okok",
+    "created_at": "2025-10-28T09:18:20.885Z",
+    "is_read": false,
+    "replied": false
+  }
+}
+]
