@@ -19,7 +19,7 @@ from .models import PasswordResetOTP
 from django.contrib.auth import get_user_model
 import random
 from django.conf import settings
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, CustomTokenObtainPairSerializer
 from .models import Category
 from .serializers import CategorySerializer
 
@@ -107,13 +107,7 @@ class RegisterView(APIView):
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == 200:
-            
-            user = User.objects.get(email=request.data.get('email'))
-            response.data['user'] = UserSerializer(user).data
-        return response
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 
@@ -200,7 +194,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                     quantity=cart_item.quantity
                 )
             
-            # Clear cart after order creation
+
             cart_items.delete()
             
         except Exception as e:
@@ -314,7 +308,7 @@ class TopSellingProductsView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
-        # Get top-selling products based on order quantity (excluding cancelled orders)
+       
         products_with_sales = Product.objects.annotate(
             total_sold=Sum(
                 'orderitem__quantity',
@@ -452,17 +446,17 @@ class ContactMessageView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         contact_message = serializer.save()
 
-        # Send email notification to admin
+       
         try:
             send_mail(
                 subject=f"New Contact Message from {contact_message.name}",
                 message=f"Name: {contact_message.name}\nEmail: {contact_message.email}\n\nMessage:\n{contact_message.message}",
                 from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[settings.EMAIL_HOST_USER],  # Send to yourself
+                recipient_list=[settings.EMAIL_HOST_USER],  
                 fail_silently=False,
             )
         except Exception as e:
-            # Log the error but don't fail the request
+           
             print(f"Failed to send email notification: {e}")
 
         return Response(

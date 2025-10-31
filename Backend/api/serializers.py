@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import get_user_model
 from .models import Product, CartItem, Order, OrderItem, Wishlist, ContactMessage
 from .models import Product
@@ -6,6 +7,23 @@ from .models import Category
 
 
 User = get_user_model()
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = 'email'
+
+    def validate(self, attrs):
+        # Get email and convert to lowercase for consistency
+        email = attrs.get('email', '').strip().lower()
+        attrs['email'] = email
+        
+        # Call parent validate method
+        data = super().validate(attrs)
+        
+        # Add user data to response
+        data['user'] = UserSerializer(self.user).data
+        
+        return data
 
 
 class ProductSerializer(serializers.ModelSerializer):

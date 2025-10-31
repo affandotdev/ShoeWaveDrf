@@ -151,5 +151,3 @@ const verifyUserStatus = async (currentUser) => {
     </AuthContext.Provider>
   );
 };
-
-
