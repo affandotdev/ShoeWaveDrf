@@ -22,7 +22,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-temp-dev-key-for-localhost
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 # Allowed hosts
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '65.0.110.229']
 
 # Application definition
 INSTALLED_APPS = [
@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 ROOT_URLCONF = 'ecommerce_backend.urls'
 
@@ -156,8 +156,10 @@ EMAIL_TIMEOUT = 10
 FRONTEND_URL = 'http://localhost:5173'
 
 
+CORS_ALLOWED_ORIGINS = [
+    "https://shoe-wave-drf-b95f.vercel.app",
+]
 
-
-
-
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://shoe-wave-drf-b95f.vercel.app",
+]
