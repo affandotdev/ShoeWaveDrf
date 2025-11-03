@@ -14,13 +14,13 @@ const Home = () => {
 
   const handleVideoLoad = () => setVideoLoaded(true);
 
-  // Demo brand logos - Using emoji fallback if images not available
+  // Demo brand logos
   const brands = [
-    { name: "Nike", logo: "/images/nike.png", emoji: "👟" },
-    { name: "Adidas", logo: "/images/adidas.png", emoji: "⚡" },
-    { name: "Puma", logo: "/images/puma.png", emoji: "🐆" },
-    { name: "Reebok", logo: "/images/reebok.png", emoji: "🏃" },
-    { name: "New Balance", logo: "/images/newbalance.png", emoji: "⚖️" },
+    { name: "Nike", logo: "/images/nike.png" },
+    { name: "Adidas", logo: "/images/adidas.png" },
+    { name: "Puma", logo: "/images/puma.png" },
+    { name: "Reebok", logo: "/images/reebok.png" },
+    { name: "New Balance", logo: "/images/newbalance.png" },
   ];
 
   // Fetch top-selling or fallback products
@@ -57,10 +57,30 @@ const Home = () => {
   return (
     <section className="bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100 min-h-screen flex flex-col items-center justify-center px-3 py-4">
 
-      {/* Hero Video Section - Using gradient background if video not available */}
+      {/* Hero Video Section */}
       <div className="relative w-full h-screen flex items-center justify-center overflow-hidden rounded-2xl shadow-xl">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 z-0"></div>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          onLoadedData={handleVideoLoad}
+          className={`absolute top-0 left-0 w-full h-full object-cover transition-all duration-1000 ${
+            videoLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105"
+          }`}
+          poster="/images/product 1.jpeg"
+        >
+          <source src="/images/Nike Air Max 270 - Animation - Trim.mp4" type="video/mp4" />
+        </video>
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-slate-900/60 via-indigo-900/40 to-purple-900/60 z-10"></div>
+
+        {!videoLoaded && (
+          <img
+            src="/images/product 1.jpeg"
+            alt="Premium Sneakers"
+            className="absolute top-0 left-0 w-full h-full object-cover"
+          />
+        )}
 
         <div className="relative z-20 text-center px-3 transform transition-all duration-1000 hover:scale-105">
           <h1 className="text-4xl sm:text-6xl font-black text-white leading-none drop-shadow-xl animate-productBob bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">
@@ -102,8 +122,15 @@ const Home = () => {
         className="cursor-pointer transform transition-all duration-700 hover:scale-110"
         onClick={() => navigate(`/products?brand=${brand.name}`)}
       >
-        <div className="w-20 h-20 p-2 bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 border border-gray-100">
-          <span className="text-4xl">{brand.emoji}</span>
+        <div className="w-20 h-20 p-2 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300">
+          <img
+            src={brand.logo}
+            alt={brand.name}
+            className="h-12 object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
         </div>
         <p className="text-center mt-1 text-sm font-semibold text-gray-700">
           {brand.name}
@@ -160,7 +187,8 @@ const Home = () => {
                           alt={product.name}
                           className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                           onError={(e) => {
-                            e.target.src = "/images/placeholder.jpg";
+                            e.target.onerror = null;
+                            e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="96" height="96"%3E%3Crect fill="%23f3f4f6" width="96" height="96"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-size="10"%3ENo Image%3C/text%3E%3C/svg%3E';
                           }}
                         />
                       </div>

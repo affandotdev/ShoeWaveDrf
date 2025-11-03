@@ -12,7 +12,10 @@ export const getBackendURL = () => {
 
 // Helper function to get full image URL
 export const getImageUrl = (imagePath) => {
-  if (!imagePath) return '/images/placeholder.jpg';
+  if (!imagePath) {
+    // Return a data URL for a gray placeholder
+    return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23f3f4f6" width="400" height="400"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-size="18"%3ENo Image%3C/text%3E%3C/svg%3E';
+  }
   if (imagePath.startsWith('http')) return imagePath;
   const backendURL = getBackendURL();
   return `${backendURL}${imagePath}`;

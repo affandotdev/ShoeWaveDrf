@@ -18,13 +18,16 @@ const About = () => {
         </p>
 
         <div className="grid md:grid-cols-2 gap-10 mt-12">
-          {/* Decorative gradient box instead of image */}
-          <div className="rounded-2xl shadow-xl overflow-hidden bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700 flex items-center justify-center min-h-[300px] hover:scale-105 transition duration-500">
-            <div className="text-center text-white p-8">
-              <div className="text-7xl mb-4">👟</div>
-              <h3 className="text-2xl font-bold">Premium Collection</h3>
-              <p className="mt-2 text-white/90">Discover Your Perfect Pair</p>
-            </div>
+          {/* Shoe Collection Image */}
+          <div>
+            <img
+              src="/images/3.png"
+              alt="Shoe Collection"
+              className="rounded-2xl shadow-xl hover:scale-105 transition duration-500"
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
           </div>
 
       

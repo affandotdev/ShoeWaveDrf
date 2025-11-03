@@ -72,7 +72,10 @@ const Cart = () => {
                           src={getImageUrl(item.product?.image || item.image)}
                           alt={item.product?.name || item.name}
                           className="w-full h-full object-cover"
-                          onError={(e) => { e.target.src = '/images/placeholder.jpg'; }}
+                          onError={(e) => { 
+                            e.target.onerror = null;
+                            e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80"%3E%3Crect fill="%23f3f4f6" width="80" height="80"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-size="10"%3ENo Image%3C/text%3E%3C/svg%3E';
+                          }}
                         />
                       </motion.div>
 

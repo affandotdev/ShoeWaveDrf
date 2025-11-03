@@ -64,7 +64,10 @@ const Wishlist = () => {
                     className="w-full h-full object-cover"
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.3 }}
-                    onError={(e) => { e.target.src = '/images/placeholder.jpg'; }}
+                    onError={(e) => { 
+                      e.target.onerror = null;
+                      e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="160" height="160"%3E%3Crect fill="%23f3f4f6" width="160" height="160"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-size="12"%3ENo Image%3C/text%3E%3C/svg%3E';
+                    }}
                   />
                   <button
                     onClick={() => removeFromWishlist(item.id)}
