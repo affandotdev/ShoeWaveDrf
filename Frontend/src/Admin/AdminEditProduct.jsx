@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import api from "../apicall/axios";
+import api, { getImageUrl } from "../apicall/axios";
 
 const AdminEditProduct = () => {
   const { id } = useParams();
@@ -175,10 +175,13 @@ const handleUpdate = async (e) => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Current Image</label>
               <div className="flex justify-center p-4 bg-gray-50 rounded-md border border-gray-200 hover:border-blue-300 transition-colors duration-200">
                 <img
-                  src={product.image}
+                  src={getImageUrl(product.image)}
                   alt="Current product"
                   className="max-h-48 object-contain rounded-md shadow-sm hover:shadow-md transition-shadow duration-200"
-                  onError={(e) => (e.target.style.display = "none")}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect fill="%23f3f4f6" width="200" height="200"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-size="14"%3EImage not available%3C/text%3E%3C/svg%3E';
+                  }}
                 />
               </div>
             </div>

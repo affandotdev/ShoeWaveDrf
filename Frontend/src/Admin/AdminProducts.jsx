@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import api from "../apicall/axios";
+import api, { getImageUrl } from "../apicall/axios";
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -232,7 +232,15 @@ const AdminProducts = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{p.id}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {p.image ? (
-                      <img src={p.image} alt={p.name} className="w-16 h-16 object-cover rounded-md shadow-sm hover:shadow-md transition-shadow duration-200" />
+                      <img 
+                        src={getImageUrl(p.image)} 
+                        alt={p.name} 
+                        className="w-16 h-16 object-cover rounded-md shadow-sm hover:shadow-md transition-shadow duration-200"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="64" height="64"%3E%3Crect fill="%23f3f4f6" width="64" height="64"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-size="12"%3ENo Image%3C/text%3E%3C/svg%3E';
+                        }}
+                      />
                     ) : (
                       <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center">
                         <span className="text-xs text-gray-400">No image</span>
