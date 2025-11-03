@@ -2,13 +2,7 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
-
-// Helper function to get full image URL
-const getImageUrl = (imagePath) => {
-  if (!imagePath) return '/images/placeholder.jpg';
-  if (imagePath.startsWith('http')) return imagePath;
-  return `http://127.0.0.1:8000${imagePath}`;
-};
+import { getImageUrl } from "../apicall/axios";
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();

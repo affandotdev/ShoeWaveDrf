@@ -22,7 +22,14 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-temp-dev-key-for-localhost
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 # Allowed hosts
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '13.234.29.27']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '13.234.29.27',
+    'shoe-wave-drf.vercel.app',
+    'shoe-wave-drf-git-main-affans-projects-576232f3.vercel.app',
+    '.vercel.app',  # Allow all Vercel preview URLs
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -41,6 +48,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add WhiteNoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,6 +58,29 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://shoe-wave-drf.vercel.app",
+    "https://shoe-wave-drf-git-main-affans-projects-576232f3.vercel.app",
+]
+
+# Allow credentials for authentication
+CORS_ALLOW_CREDENTIALS = True
+
+# Allow all headers for development
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 ROOT_URLCONF = 'ecommerce_backend.urls'
 
@@ -104,9 +135,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
-
+# Default file field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Django REST Framework
@@ -132,17 +161,16 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = 'api.User'
 
-# Media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 # Razorpay
 RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID')
 RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET')
 
-# Email Configuration for Password Reset (Optional for localhost)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Prints emails to console for localhost
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Uncomment for real email
+# Email Configuration
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Console for development
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # SMTP for production
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -153,13 +181,42 @@ DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER', 'noreply@localhost.com')
 EMAIL_TIMEOUT = 10
 
 # Frontend URL for password reset links
-FRONTEND_URL = 'http://localhost:5173'
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://shoe-wave-drf.vercel.app')
 
-
-CORS_ALLOWED_ORIGINS = [
-    "https://shoe-wave-drf-b95f.vercel.app",
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://shoe-wave-drf-b95f.vercel.app",
-]
+# Static and Media Files Configuration
+if DEBUG:
+    # Local development
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    # Production - Check if AWS S3 is configured
+    USE_S3 = os.getenv('USE_S3', 'False') == 'True'
+    
+    if USE_S3:
+        # AWS S3 Configuration
+        AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+        AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+        AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', 'ap-south-1')
+        AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+        AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+        AWS_DEFAULT_ACL = 'public-read'
+        AWS_LOCATION = 'media'
+        
+        # Media files configuration
+        DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+        MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+        
+        # Static files
+        STATIC_URL = '/static/'
+        STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+        STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    else:
+        # Production without S3 - serve media from backend server
+        STATIC_URL = '/static/'
+        STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+        MEDIA_URL = '/media/'
+        MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+        STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

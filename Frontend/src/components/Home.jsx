@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../apicall/axios";
 
+import { getImageUrl } from "../apicall/axios";
+
 const Home = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [productsVisible, setProductsVisible] = useState(false);
@@ -178,11 +180,7 @@ const Home = () => {
                     <div className="relative mb-4">
                       <div className="w-24 h-24 mx-auto rounded-2xl overflow-hidden shadow-xl transform transition-all duration-500 hover:scale-110 hover:-translate-y-2 animate-productBob border-2 border-white/20">
                         <img
-                          src={
-                            product.image?.startsWith("http")
-                              ? product.image
-                              : `http://127.0.0.1:8000${product.image}`
-                          }
+                          src={getImageUrl(product.image)}
                           alt={product.name}
                           className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                           onError={(e) => {

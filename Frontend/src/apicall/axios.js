@@ -1,8 +1,22 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api",
 });
+
+// Export the base URL for image handling
+export const getBackendURL = () => {
+  const apiUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
+  return apiUrl.replace('/api', '');
+};
+
+// Helper function to get full image URL
+export const getImageUrl = (imagePath) => {
+  if (!imagePath) return '/images/placeholder.jpg';
+  if (imagePath.startsWith('http')) return imagePath;
+  const backendURL = getBackendURL();
+  return `${backendURL}${imagePath}`;
+};
 
 // Attach token automatically if available
 api.interceptors.request.use(
@@ -65,7 +79,7 @@ api.interceptors.response.use(
       isRefreshing = true;
       try {
         const { data } = await axios.post(
-          "http://127.0.0.1:8000/api/token/refresh/",
+          `${api.defaults.baseURL}/token/refresh/`,
           { refresh }
         );
         const newAccess = data.access;

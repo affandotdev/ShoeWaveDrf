@@ -4,14 +4,7 @@ import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import api from "../apicall/axios";
-
-// Helper function to get full image URL
-const getImageUrl = (imagePath) => {
-  if (!imagePath) return "/images/placeholder.jpg"; // fallback placeholder
-  if (imagePath.startsWith("http")) return imagePath;
-  return `http://127.0.0.1:8000${imagePath}`;
-};
+import api, { getImageUrl } from "../apicall/axios";
 
 const ProductDetails = () => {
   const { id } = useParams();

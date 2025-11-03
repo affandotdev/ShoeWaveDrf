@@ -5,14 +5,7 @@ import { useWishlist } from "../context/WishlistContext";
 import { Heart, ScanFaceIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from "../apicall/axios";
-
-// Helper function to get full image URL
-const getImageUrl = (imagePath) => {
-  if (!imagePath) return '/images/placeholder.jpg';
-  if (imagePath.startsWith('http')) return imagePath;
-  return `http://127.0.0.1:8000${imagePath}`;
-};
+import api, { getImageUrl } from "../apicall/axios";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
